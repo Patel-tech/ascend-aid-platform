@@ -12,7 +12,7 @@ function StatCard({ icon, label, value, accent }: { icon: React.ReactNode; label
   return (
     <Card sx={{ border: 1, borderColor: "divider", height: "100%" }}>
       <CardContent>
-        <Stack direction="row" spacing={2} alignItems="center">
+        <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
           <Avatar sx={{ bgcolor: `${accent}22`, color: accent, width: 48, height: 48 }}>{icon}</Avatar>
           <Box>
             <Typography variant="caption" color="text.secondary">{label}</Typography>
@@ -50,7 +50,7 @@ export default function Dashboard() {
         }}
       >
         <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-          <Grid container spacing={3} alignItems="center">
+          <Grid container spacing={3} sx={{ alignItems: "center" }}>
             <Grid size={{ xs: 12, md: 8 }}>
               <Chip
                 label="Interview ready in ~12 days"
@@ -118,7 +118,7 @@ export default function Dashboard() {
         <Grid size={{ xs: 12, md: 8 }}>
           <Card sx={{ border: 1, borderColor: "divider" }}>
             <CardContent>
-              <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
+              <Stack direction="row" sx={{ mb: 2, justifyContent: "space-between", alignItems: "center" }}>
                 <Typography variant="h6">Quick actions</Typography>
               </Stack>
               <Grid container spacing={2}>
@@ -152,7 +152,7 @@ export default function Dashboard() {
               <Typography variant="h6" sx={{ mb: 2 }}>Recent activity</Typography>
               <Stack spacing={2}>
                 {activities.map((a, i) => (
-                  <Stack direction="row" spacing={2} key={i} alignItems="center">
+                  <Stack direction="row" spacing={2} key={i} sx={{ alignItems: "center" }}>
                     <Avatar sx={{ bgcolor: "action.hover", color: "primary.main", width: 36, height: 36 }}>
                       {a.icon}
                     </Avatar>
@@ -180,7 +180,7 @@ export default function Dashboard() {
               { name: "DSA", pct: 48 },
             ].map((t) => (
               <Box key={t.name}>
-                <Stack direction="row" justifyContent="space-between" sx={{ mb: 0.5 }}>
+                <Stack direction="row" sx={{ mb: 0.5, justifyContent: "space-between" }}>
                   <Typography variant="body2" sx={{ fontWeight: 500 }}>{t.name}</Typography>
                   <Typography variant="body2" color="text.secondary">{t.pct}%</Typography>
                 </Stack>
