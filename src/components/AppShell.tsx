@@ -188,7 +188,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             "& .MuiDrawer-paper": { width: drawerWidth, boxSizing: "border-box" },
           }}
         >
-          <SidebarContent />
+          <SidebarContent onNavigate={() => setMobileOpen(false)} />
         </Drawer>
         <Drawer
           variant="permanent"
@@ -204,6 +204,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <SidebarContent />
         </Drawer>
       </Box>
+
 
       <Box
         component="main"
