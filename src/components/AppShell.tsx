@@ -31,8 +31,9 @@ const nav = [
   { to: "/settings", label: "Settings", icon: <Settings /> },
 ];
 
-function SidebarContent() {
+function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+
   const theme = useTheme();
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
