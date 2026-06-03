@@ -78,7 +78,7 @@ function SidebarContent() {
               <ListItemIcon sx={{ minWidth: 38, color: "inherit" }}>{item.icon}</ListItemIcon>
               <ListItemText
                 primary={item.label}
-                primaryTypographyProps={{ fontWeight: active ? 600 : 500, fontSize: 14 }}
+                slotProps={{ primary: { fontWeight: active ? 600 : 500, fontSize: 14 } }}
               />
             </ListItemButton>
           );
