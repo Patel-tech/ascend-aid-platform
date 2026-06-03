@@ -3,7 +3,7 @@ import {
   Box, Card, CardContent, Stack, Typography, Button, TextField, Table, TableBody, TableCell,
   TableHead, TableRow, Chip, IconButton, LinearProgress,
 } from "@mui/material";
-import { CloudUpload, Search, DeleteOutline, Description } from "@mui/icons-material";
+import { CloudUpload, Search, DeleteOutlined, Description } from "@mui/icons-material";
 
 const seed = [
   { name: "spring-boot-reference.pdf", size: "2.4 MB", date: "2 days ago", status: "Processed" },
@@ -57,7 +57,7 @@ export default function DocumentsPage() {
             <TextField
               size="small" placeholder="Search…"
               value={query} onChange={(e) => setQuery(e.target.value)}
-              InputProps={{ startAdornment: <Search fontSize="small" sx={{ mr: 1, color: "text.secondary" }} /> }}
+              slotProps={{ input: { startAdornment: <Search fontSize="small" sx={{ mr: 1, color: "text.secondary" }} /> } }}
             />
           </Stack>
           <Table>
@@ -90,7 +90,7 @@ export default function DocumentsPage() {
                   </TableCell>
                   <TableCell align="right">
                     <IconButton onClick={() => setDocs((s) => s.filter((x) => x.name !== d.name))}>
-                      <DeleteOutline />
+                      <DeleteOutlined />
                     </IconButton>
                   </TableCell>
                 </TableRow>

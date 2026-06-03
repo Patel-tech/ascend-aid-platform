@@ -22,7 +22,7 @@ export default function BookmarksPage() {
       </Box>
       <TextField
         size="small" placeholder="Search bookmarks…" value={q} onChange={(e) => setQ(e.target.value)}
-        InputProps={{ startAdornment: <Search fontSize="small" sx={{ mr: 1, color: "text.secondary" }} /> }}
+        slotProps={{ input: { startAdornment: <Search fontSize="small" sx={{ mr: 1, color: "text.secondary" }} /> } }}
       />
       <Stack spacing={2}>
         {list.map((b, i) => (

@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   Box, Card, CardContent, Stack, Typography, Button, Grid, TextField, Chip, LinearProgress, Avatar,
 } from "@mui/material";
-import { AutoAwesome, CheckCircleOutline } from "@mui/icons-material";
+import { AutoAwesome, CheckCircleOutlined } from "@mui/icons-material";
 
 const weeks = [
   { w: "Week 1", focus: "Java Core + OOP deep dive", pct: 100 },
@@ -29,7 +29,7 @@ export default function StudyPlanPage() {
               <TextField fullWidth size="small" label="Years of experience" type="number" value={exp} onChange={(e) => setExp(e.target.value)} />
             </Grid>
             <Grid size={{ xs: 12, md: 4 }}>
-              <TextField fullWidth size="small" label="Target interview date" type="date" value={date} onChange={(e) => setDate(e.target.value)} InputLabelProps={{ shrink: true }} />
+              <TextField fullWidth size="small" label="Target interview date" type="date" value={date} onChange={(e) => setDate(e.target.value)} slotProps={{ inputLabel: { shrink: true } }} />
             </Grid>
             <Grid size={{ xs: 12, md: 4 }}>
               <Button fullWidth variant="contained" startIcon={<AutoAwesome />}>Generate plan</Button>
@@ -44,7 +44,7 @@ export default function StudyPlanPage() {
           {weeks.map((w, i) => (
             <Box key={w.w} sx={{ position: "relative" }}>
               <Avatar sx={{ position: "absolute", left: -38, top: 18, bgcolor: w.pct === 100 ? "success.main" : "primary.main", width: 36, height: 36 }}>
-                {w.pct === 100 ? <CheckCircleOutline /> : i + 1}
+                {w.pct === 100 ? <CheckCircleOutlined /> : i + 1}
               </Avatar>
               <Card sx={{ border: 1, borderColor: "divider" }}>
                 <CardContent>

@@ -4,7 +4,7 @@ import {
   List, ListItemButton, ListItemText, Card, CircularProgress,
 } from "@mui/material";
 import {
-  Add, Send, ContentCopy, Refresh, SmartToy, Person, Description, DeleteOutline,
+  Add, Send, ContentCopy, Refresh, SmartToy, Person, Description, DeleteOutlined,
 } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
@@ -71,7 +71,7 @@ export default function AssistantPage() {
                 primary={c.title}
                 secondary={new Date(c.updatedAt).toLocaleDateString()}
                 slotProps={{
-                  primary: { sx: { fontSize: 14, fontWeight: 500, noWrap: true } },
+                  primary: { sx: { fontSize: 14, fontWeight: 500 }, noWrap: true },
                   secondary: { sx: { fontSize: 11 } },
                 }}
               />
@@ -79,7 +79,7 @@ export default function AssistantPage() {
                 size="small"
                 onClick={(e) => { e.stopPropagation(); dispatch(deleteConversation(c.id)); }}
               >
-                <DeleteOutline fontSize="small" />
+                <DeleteOutlined fontSize="small" />
               </IconButton>
             </ListItemButton>
           ))}
