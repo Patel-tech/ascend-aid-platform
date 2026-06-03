@@ -125,6 +125,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             edge="start"
             onClick={() => setMobileOpen(true)}
             sx={{ display: { md: "none" } }}
+            aria-label="Open navigation menu"
           >
             <MenuIcon />
           </IconButton>
@@ -142,16 +143,16 @@ export function AppShell({ children }: { children: ReactNode }) {
           </Box>
           <Box sx={{ flex: 1 }} />
           <Tooltip title={mode === "dark" ? "Light mode" : "Dark mode"}>
-            <IconButton onClick={() => dispatch(toggleMode())}>
+            <IconButton onClick={() => dispatch(toggleMode())} aria-label="Toggle color theme">
               {mode === "dark" ? <LightMode /> : <DarkMode />}
             </IconButton>
           </Tooltip>
           <Tooltip title="Notifications">
-            <IconButton>
+            <IconButton aria-label="View notifications">
               <Badge color="error" variant="dot"><Notifications /></Badge>
             </IconButton>
           </Tooltip>
-          <IconButton onClick={(e) => setProfileAnchor(e.currentTarget)} sx={{ p: 0.5 }}>
+          <IconButton onClick={(e) => setProfileAnchor(e.currentTarget)} sx={{ p: 0.5 }} aria-label="Open user menu">
             <Avatar sx={{ width: 34, height: 34, bgcolor: "primary.main" }}>
               {user?.name?.[0] ?? "A"}
             </Avatar>
