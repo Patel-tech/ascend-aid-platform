@@ -31,8 +31,9 @@ const nav = [
   { to: "/settings", label: "Settings", icon: <Settings /> },
 ];
 
-function SidebarContent() {
+function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+
   const theme = useTheme();
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
@@ -64,7 +65,9 @@ function SidebarContent() {
               key={item.to}
               component={Link}
               to={item.to}
+              onClick={onNavigate}
               sx={{
+
                 borderRadius: 2, mb: 0.5, py: 1,
                 color: active ? "primary.main" : "text.secondary",
                 bgcolor: active
@@ -185,7 +188,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             "& .MuiDrawer-paper": { width: drawerWidth, boxSizing: "border-box" },
           }}
         >
-          <SidebarContent />
+          <SidebarContent onNavigate={() => setMobileOpen(false)} />
         </Drawer>
         <Drawer
           variant="permanent"
@@ -201,6 +204,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <SidebarContent />
         </Drawer>
       </Box>
+
 
       <Box
         component="main"
