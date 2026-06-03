@@ -11,6 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRegisterRouteImport } from './routes/auth.register'
+import { Route as AuthLoginRouteImport } from './routes/auth.login'
+import { Route as AuthForgotRouteImport } from './routes/auth.forgot'
 import { Route as AppStudyPlanRouteImport } from './routes/_app.study-plan'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppResumeRouteImport } from './routes/_app.resume'
@@ -33,6 +36,21 @@ const AppRoute = AppRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRegisterRoute = AuthRegisterRouteImport.update({
+  id: '/auth/register',
+  path: '/auth/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthForgotRoute = AuthForgotRouteImport.update({
+  id: '/auth/forgot',
+  path: '/auth/forgot',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppStudyPlanRoute = AppStudyPlanRouteImport.update({
@@ -122,6 +140,9 @@ export interface FileRoutesByFullPath {
   '/resume': typeof AppResumeRoute
   '/settings': typeof AppSettingsRoute
   '/study-plan': typeof AppStudyPlanRoute
+  '/auth/forgot': typeof AuthForgotRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -139,6 +160,9 @@ export interface FileRoutesByTo {
   '/resume': typeof AppResumeRoute
   '/settings': typeof AppSettingsRoute
   '/study-plan': typeof AppStudyPlanRoute
+  '/auth/forgot': typeof AuthForgotRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -158,6 +182,9 @@ export interface FileRoutesById {
   '/_app/resume': typeof AppResumeRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/study-plan': typeof AppStudyPlanRoute
+  '/auth/forgot': typeof AuthForgotRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -177,6 +204,9 @@ export interface FileRouteTypes {
     | '/resume'
     | '/settings'
     | '/study-plan'
+    | '/auth/forgot'
+    | '/auth/login'
+    | '/auth/register'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -194,6 +224,9 @@ export interface FileRouteTypes {
     | '/resume'
     | '/settings'
     | '/study-plan'
+    | '/auth/forgot'
+    | '/auth/login'
+    | '/auth/register'
   id:
     | '__root__'
     | '/'
@@ -212,11 +245,17 @@ export interface FileRouteTypes {
     | '/_app/resume'
     | '/_app/settings'
     | '/_app/study-plan'
+    | '/auth/forgot'
+    | '/auth/login'
+    | '/auth/register'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
+  AuthForgotRoute: typeof AuthForgotRoute
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthRegisterRoute: typeof AuthRegisterRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -233,6 +272,27 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/register': {
+      id: '/auth/register'
+      path: '/auth/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof AuthRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/forgot': {
+      id: '/auth/forgot'
+      path: '/auth/forgot'
+      fullPath: '/auth/forgot'
+      preLoaderRoute: typeof AuthForgotRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app/study-plan': {
@@ -375,6 +435,9 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
+  AuthForgotRoute: AuthForgotRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  AuthRegisterRoute: AuthRegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
