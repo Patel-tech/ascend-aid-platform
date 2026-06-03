@@ -11,7 +11,20 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppStudyPlanRouteImport } from './routes/_app.study-plan'
+import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as AppResumeRouteImport } from './routes/_app.resume'
+import { Route as AppQuizRouteImport } from './routes/_app.quiz'
+import { Route as AppQuestionGeneratorRouteImport } from './routes/_app.question-generator'
+import { Route as AppNotesRouteImport } from './routes/_app.notes'
+import { Route as AppMockInterviewRouteImport } from './routes/_app.mock-interview'
+import { Route as AppFlashcardsRouteImport } from './routes/_app.flashcards'
+import { Route as AppDocumentsRouteImport } from './routes/_app.documents'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppBookmarksRouteImport } from './routes/_app.bookmarks'
+import { Route as AppAssistantRouteImport } from './routes/_app.assistant'
+import { Route as AppAnalyticsRouteImport } from './routes/_app.analytics'
+import { Route as AppAdminRouteImport } from './routes/_app.admin'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -22,32 +35,183 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppStudyPlanRoute = AppStudyPlanRouteImport.update({
+  id: '/study-plan',
+  path: '/study-plan',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppResumeRoute = AppResumeRouteImport.update({
+  id: '/resume',
+  path: '/resume',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppQuizRoute = AppQuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppQuestionGeneratorRoute = AppQuestionGeneratorRouteImport.update({
+  id: '/question-generator',
+  path: '/question-generator',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotesRoute = AppNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMockInterviewRoute = AppMockInterviewRouteImport.update({
+  id: '/mock-interview',
+  path: '/mock-interview',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFlashcardsRoute = AppFlashcardsRouteImport.update({
+  id: '/flashcards',
+  path: '/flashcards',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDocumentsRoute = AppDocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AppRoute,
 } as any)
+const AppBookmarksRoute = AppBookmarksRouteImport.update({
+  id: '/bookmarks',
+  path: '/bookmarks',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAssistantRoute = AppAssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminRoute = AppAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AppAdminRoute
+  '/analytics': typeof AppAnalyticsRoute
+  '/assistant': typeof AppAssistantRoute
+  '/bookmarks': typeof AppBookmarksRoute
   '/dashboard': typeof AppDashboardRoute
+  '/documents': typeof AppDocumentsRoute
+  '/flashcards': typeof AppFlashcardsRoute
+  '/mock-interview': typeof AppMockInterviewRoute
+  '/notes': typeof AppNotesRoute
+  '/question-generator': typeof AppQuestionGeneratorRoute
+  '/quiz': typeof AppQuizRoute
+  '/resume': typeof AppResumeRoute
+  '/settings': typeof AppSettingsRoute
+  '/study-plan': typeof AppStudyPlanRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AppAdminRoute
+  '/analytics': typeof AppAnalyticsRoute
+  '/assistant': typeof AppAssistantRoute
+  '/bookmarks': typeof AppBookmarksRoute
   '/dashboard': typeof AppDashboardRoute
+  '/documents': typeof AppDocumentsRoute
+  '/flashcards': typeof AppFlashcardsRoute
+  '/mock-interview': typeof AppMockInterviewRoute
+  '/notes': typeof AppNotesRoute
+  '/question-generator': typeof AppQuestionGeneratorRoute
+  '/quiz': typeof AppQuizRoute
+  '/resume': typeof AppResumeRoute
+  '/settings': typeof AppSettingsRoute
+  '/study-plan': typeof AppStudyPlanRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
+  '/_app/admin': typeof AppAdminRoute
+  '/_app/analytics': typeof AppAnalyticsRoute
+  '/_app/assistant': typeof AppAssistantRoute
+  '/_app/bookmarks': typeof AppBookmarksRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/documents': typeof AppDocumentsRoute
+  '/_app/flashcards': typeof AppFlashcardsRoute
+  '/_app/mock-interview': typeof AppMockInterviewRoute
+  '/_app/notes': typeof AppNotesRoute
+  '/_app/question-generator': typeof AppQuestionGeneratorRoute
+  '/_app/quiz': typeof AppQuizRoute
+  '/_app/resume': typeof AppResumeRoute
+  '/_app/settings': typeof AppSettingsRoute
+  '/_app/study-plan': typeof AppStudyPlanRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/analytics'
+    | '/assistant'
+    | '/bookmarks'
+    | '/dashboard'
+    | '/documents'
+    | '/flashcards'
+    | '/mock-interview'
+    | '/notes'
+    | '/question-generator'
+    | '/quiz'
+    | '/resume'
+    | '/settings'
+    | '/study-plan'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard'
-  id: '__root__' | '/' | '/_app' | '/_app/dashboard'
+  to:
+    | '/'
+    | '/admin'
+    | '/analytics'
+    | '/assistant'
+    | '/bookmarks'
+    | '/dashboard'
+    | '/documents'
+    | '/flashcards'
+    | '/mock-interview'
+    | '/notes'
+    | '/question-generator'
+    | '/quiz'
+    | '/resume'
+    | '/settings'
+    | '/study-plan'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/_app/admin'
+    | '/_app/analytics'
+    | '/_app/assistant'
+    | '/_app/bookmarks'
+    | '/_app/dashboard'
+    | '/_app/documents'
+    | '/_app/flashcards'
+    | '/_app/mock-interview'
+    | '/_app/notes'
+    | '/_app/question-generator'
+    | '/_app/quiz'
+    | '/_app/resume'
+    | '/_app/settings'
+    | '/_app/study-plan'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -71,6 +235,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/study-plan': {
+      id: '/_app/study-plan'
+      path: '/study-plan'
+      fullPath: '/study-plan'
+      preLoaderRoute: typeof AppStudyPlanRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/resume': {
+      id: '/_app/resume'
+      path: '/resume'
+      fullPath: '/resume'
+      preLoaderRoute: typeof AppResumeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/quiz': {
+      id: '/_app/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof AppQuizRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/question-generator': {
+      id: '/_app/question-generator'
+      path: '/question-generator'
+      fullPath: '/question-generator'
+      preLoaderRoute: typeof AppQuestionGeneratorRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/notes': {
+      id: '/_app/notes'
+      path: '/notes'
+      fullPath: '/notes'
+      preLoaderRoute: typeof AppNotesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/mock-interview': {
+      id: '/_app/mock-interview'
+      path: '/mock-interview'
+      fullPath: '/mock-interview'
+      preLoaderRoute: typeof AppMockInterviewRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/flashcards': {
+      id: '/_app/flashcards'
+      path: '/flashcards'
+      fullPath: '/flashcards'
+      preLoaderRoute: typeof AppFlashcardsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/documents': {
+      id: '/_app/documents'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof AppDocumentsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/dashboard': {
       id: '/_app/dashboard'
       path: '/dashboard'
@@ -78,15 +305,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/bookmarks': {
+      id: '/_app/bookmarks'
+      path: '/bookmarks'
+      fullPath: '/bookmarks'
+      preLoaderRoute: typeof AppBookmarksRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/assistant': {
+      id: '/_app/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AppAssistantRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/analytics': {
+      id: '/_app/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AppAnalyticsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/admin': {
+      id: '/_app/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AppAdminRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAdminRoute: typeof AppAdminRoute
+  AppAnalyticsRoute: typeof AppAnalyticsRoute
+  AppAssistantRoute: typeof AppAssistantRoute
+  AppBookmarksRoute: typeof AppBookmarksRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppDocumentsRoute: typeof AppDocumentsRoute
+  AppFlashcardsRoute: typeof AppFlashcardsRoute
+  AppMockInterviewRoute: typeof AppMockInterviewRoute
+  AppNotesRoute: typeof AppNotesRoute
+  AppQuestionGeneratorRoute: typeof AppQuestionGeneratorRoute
+  AppQuizRoute: typeof AppQuizRoute
+  AppResumeRoute: typeof AppResumeRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppStudyPlanRoute: typeof AppStudyPlanRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAdminRoute: AppAdminRoute,
+  AppAnalyticsRoute: AppAnalyticsRoute,
+  AppAssistantRoute: AppAssistantRoute,
+  AppBookmarksRoute: AppBookmarksRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppDocumentsRoute: AppDocumentsRoute,
+  AppFlashcardsRoute: AppFlashcardsRoute,
+  AppMockInterviewRoute: AppMockInterviewRoute,
+  AppNotesRoute: AppNotesRoute,
+  AppQuestionGeneratorRoute: AppQuestionGeneratorRoute,
+  AppQuizRoute: AppQuizRoute,
+  AppResumeRoute: AppResumeRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppStudyPlanRoute: AppStudyPlanRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -98,3 +379,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
