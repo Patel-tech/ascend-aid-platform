@@ -78,23 +78,42 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "CareerCoach AI is a web application that provides AI-powered interview preparation tools and learning resources." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "CareerCoach AI is a web application that provides AI-powered interview preparation tools and learning resources." },
+      { title: "CareerCoach AI — AI-Powered Interview Prep & Learning" },
+      { name: "description", content: "Practice mock interviews, generate questions, analyze your resume, and master technical topics with an AI coach built for job seekers." },
+      { name: "author", content: "CareerCoach AI" },
+      { property: "og:site_name", content: "CareerCoach AI" },
+      { property: "og:title", content: "CareerCoach AI — AI-Powered Interview Prep & Learning" },
+      { property: "og:description", content: "Practice mock interviews, generate questions, analyze your resume, and master technical topics with an AI coach built for job seekers." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "CareerCoach AI is a web application that provides AI-powered interview preparation tools and learning resources." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0acbdca9-d646-4da8-9cd1-2dfde16ce938/id-preview-62d99a14--282a88b1-e468-4f8d-b568-423a641dc651.lovable.app-1780480702321.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0acbdca9-d646-4da8-9cd1-2dfde16ce938/id-preview-62d99a14--282a88b1-e468-4f8d-b568-423a641dc651.lovable.app-1780480702321.png" },
+      { name: "twitter:title", content: "CareerCoach AI — AI-Powered Interview Prep & Learning" },
+      { name: "twitter:description", content: "Practice mock interviews, generate questions, analyze your resume, and master technical topics with an AI coach built for job seekers." },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              name: "CareerCoach AI",
+              url: "https://ascend-aid-platform.lovable.app",
+              description: "AI-powered interview preparation and learning platform.",
+            },
+            {
+              "@type": "WebSite",
+              name: "CareerCoach AI",
+              url: "https://ascend-aid-platform.lovable.app",
+            },
+          ],
+        }),
       },
     ],
   }),
