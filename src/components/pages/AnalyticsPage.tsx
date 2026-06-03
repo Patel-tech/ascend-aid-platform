@@ -29,7 +29,7 @@ export default function AnalyticsPage() {
   return (
     <Stack spacing={3}>
       <Box>
-        <Typography variant="h4">Analytics</Typography>
+        <Typography variant="h4" component="h1">Analytics</Typography>
         <Typography color="text.secondary">Track your interview readiness across topics over time.</Typography>
       </Box>
 

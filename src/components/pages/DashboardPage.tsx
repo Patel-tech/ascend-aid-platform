@@ -57,7 +57,7 @@ export default function Dashboard() {
                 size="small"
                 sx={{ bgcolor: "rgba(255,255,255,0.15)", color: "#fff", mb: 1.5 }}
               />
-              <Typography variant="h4" sx={{ fontWeight: 700 }}>
+              <Typography variant="h4" component="h1" sx={{ fontWeight: 700 }}>
                 Welcome back, {user?.name?.split(" ")[0]} 👋
               </Typography>
               <Typography sx={{ mt: 1, opacity: 0.9 }}>
@@ -119,7 +119,7 @@ export default function Dashboard() {
           <Card sx={{ border: 1, borderColor: "divider" }}>
             <CardContent>
               <Stack direction="row" sx={{ mb: 2, justifyContent: "space-between", alignItems: "center" }}>
-                <Typography variant="h6">Quick actions</Typography>
+                <Typography variant="h6" component="h2">Quick actions</Typography>
               </Stack>
               <Grid container spacing={2}>
                 {quickActions.map((q) => (
@@ -149,7 +149,7 @@ export default function Dashboard() {
         <Grid size={{ xs: 12, md: 4 }}>
           <Card sx={{ border: 1, borderColor: "divider", height: "100%" }}>
             <CardContent>
-              <Typography variant="h6" sx={{ mb: 2 }}>Recent activity</Typography>
+              <Typography variant="h6" component="h2" sx={{ mb: 2 }}>Recent activity</Typography>
               <Stack spacing={2}>
                 {activities.map((a, i) => (
                   <Stack direction="row" spacing={2} key={i} sx={{ alignItems: "center" }}>
@@ -170,7 +170,7 @@ export default function Dashboard() {
 
       <Card sx={{ border: 1, borderColor: "divider" }}>
         <CardContent>
-          <Typography variant="h6" sx={{ mb: 2 }}>Topic-wise progress</Typography>
+          <Typography variant="h6" component="h2" sx={{ mb: 2 }}>Topic-wise progress</Typography>
           <Stack spacing={2.5}>
             {[
               { name: "Java Core", pct: 92 },
