@@ -65,7 +65,9 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
               key={item.to}
               component={Link}
               to={item.to}
+              onClick={onNavigate}
               sx={{
+
                 borderRadius: 2, mb: 0.5, py: 1,
                 color: active ? "primary.main" : "text.secondary",
                 bgcolor: active
