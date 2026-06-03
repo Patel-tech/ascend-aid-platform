@@ -3,7 +3,18 @@ import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
 import { Google, GitHub } from "@mui/icons-material";
 import { AuthLayout } from "@/components/AuthLayout";
 
-export const Route = createFileRoute("/auth/login")({ component: Login });
+export const Route = createFileRoute("/auth/login")({
+  head: () => ({
+    meta: [
+      { title: "Sign in — CareerCoach AI" },
+      { name: "description", content: "Sign in to CareerCoach AI to continue your interview preparation." },
+      { property: "og:title", content: "Sign in — CareerCoach AI" },
+      { property: "og:description", content: "Sign in to CareerCoach AI to continue your interview preparation." },
+      { property: "og:url", content: "https://ascend-aid-platform.lovable.app/auth/login" },
+    ],
+    links: [{ rel: "canonical", href: "https://ascend-aid-platform.lovable.app/auth/login" }],
+  }),
+  component: Login });
 
 function Login() {
   return (

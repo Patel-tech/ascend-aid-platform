@@ -2,7 +2,18 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import { AuthLayout } from "@/components/AuthLayout";
 
-export const Route = createFileRoute("/auth/forgot")({ component: Forgot });
+export const Route = createFileRoute("/auth/forgot")({
+  head: () => ({
+    meta: [
+      { title: "Reset password — CareerCoach AI" },
+      { name: "description", content: "Reset your CareerCoach AI password to regain access to your account." },
+      { property: "og:title", content: "Reset password — CareerCoach AI" },
+      { property: "og:description", content: "Reset your CareerCoach AI password to regain access to your account." },
+      { property: "og:url", content: "https://ascend-aid-platform.lovable.app/auth/forgot" },
+    ],
+    links: [{ rel: "canonical", href: "https://ascend-aid-platform.lovable.app/auth/forgot" }],
+  }),
+  component: Forgot });
 
 function Forgot() {
   return (

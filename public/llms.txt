@@ -1,0 +1,24 @@
+# CareerCoach AI
+
+> AI-powered interview preparation and learning platform. Practice mock interviews, generate questions, analyze resumes, and master technical topics with a personal AI coach.
+
+CareerCoach AI helps job seekers prepare for technical and behavioral interviews. The product combines an AI assistant, mock interview simulator, question generator, resume analyzer, study plans, flashcards, and analytics in a single workspace.
+
+## Pages
+
+- [Dashboard](/dashboard): Overview of study streak, readiness score, and recent activity.
+- [AI Assistant](/assistant): Chat-based AI coach for interview questions and concept explanations.
+- [Mock Interview](/mock-interview): Live AI-driven mock interview sessions.
+- [Question Generator](/question-generator): Generate role-specific interview questions on demand.
+- [Quiz](/quiz): Topic-wise quizzes with instant scoring.
+- [Resume Analyzer](/resume): Upload a resume and get an ATS score with improvement tips.
+- [Documents](/documents): Upload notes, books, and PDFs for retrieval-augmented Q&A.
+- [Study Plan](/study-plan): Personalized day-by-day prep plan.
+- [Notes Summarizer](/notes): Turn long notes into concise summaries.
+- [Flashcards](/flashcards): Spaced-repetition flashcards for key concepts.
+- [Bookmarks](/bookmarks): Save and revisit important questions and answers.
+- [Analytics](/analytics): Track readiness across topics over time.
+
+## Optional
+
+- [Settings](/settings): Account, preferences, and theme.

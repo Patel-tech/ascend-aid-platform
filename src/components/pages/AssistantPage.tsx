@@ -78,6 +78,7 @@ export default function AssistantPage() {
               <IconButton
                 size="small"
                 onClick={(e) => { e.stopPropagation(); dispatch(deleteConversation(c.id)); }}
+                aria-label={`Delete conversation ${c.title}`}
               >
                 <DeleteOutlined fontSize="small" />
               </IconButton>
@@ -145,8 +146,8 @@ export default function AssistantPage() {
                     )}
                     {m.role === "assistant" && (
                       <Stack direction="row" spacing={0.5} sx={{ mt: 1 }}>
-                        <Tooltip title="Copy"><IconButton size="small"><ContentCopy fontSize="small" /></IconButton></Tooltip>
-                        <Tooltip title="Regenerate"><IconButton size="small"><Refresh fontSize="small" /></IconButton></Tooltip>
+                        <Tooltip title="Copy"><IconButton size="small" aria-label="Copy response"><ContentCopy fontSize="small" /></IconButton></Tooltip>
+                        <Tooltip title="Regenerate"><IconButton size="small" aria-label="Regenerate response"><Refresh fontSize="small" /></IconButton></Tooltip>
                       </Stack>
                     )}
                   </Box>
