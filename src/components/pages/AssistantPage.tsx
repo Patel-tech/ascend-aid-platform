@@ -4,8 +4,9 @@ import {
   List, ListItemButton, ListItemText, Card, CircularProgress,
 } from "@mui/material";
 import {
-  Add, Send, ContentCopy, Refresh, SmartToy, Person, Description, DeleteOutlined,
+  Add, Send, ContentCopy, Refresh, SmartToy, Person, Description, DeleteOutlined, ArrowBack,
 } from "@mui/icons-material";
+import { useRouter } from "@tanstack/react-router";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   newConversation, setActive, sendMessage, receiveMessage, deleteConversation,
@@ -25,6 +26,7 @@ export default function AssistantPage() {
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -88,13 +90,18 @@ export default function AssistantPage() {
       </Card>
 
       <Card sx={{ flex: 1, display: "flex", flexDirection: "column", border: 1, borderColor: "divider" }}>
-        <Box sx={{ p: 2, borderBottom: 1, borderColor: "divider" }}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-            {convo?.title ?? "New chat"}
-          </Typography>
-          <Typography variant="caption" color="text.secondary">
-            Powered by RAG over your uploaded documents
-          </Typography>
+        <Box sx={{ p: 2, borderBottom: 1, borderColor: "divider", display: "flex", alignItems: "center", gap: 1 }}>
+          <IconButton size="small" onClick={() => router.history.back()}>
+            <ArrowBack fontSize="small" />
+          </IconButton>
+          <Box>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              {convo?.title ?? "New chat"}
+            </Typography>
+            <Typography variant="caption" color="text.secondary">
+              Powered by RAG over your uploaded documents
+            </Typography>
+          </Box>
         </Box>
 
         <Box ref={scrollRef} sx={{ flex: 1, overflowY: "auto", p: { xs: 2, md: 3 } }}>

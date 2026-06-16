@@ -1,9 +1,11 @@
-import { Box, Card, CardContent, Stack, Typography, Grid, LinearProgress, Avatar } from "@mui/material";
+import { Box, Card, CardContent, Stack, Typography, Grid, LinearProgress, Avatar, IconButton } from "@mui/material";
 import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, BarChart, Bar,
   RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend,
 } from "recharts";
 import { useTheme } from "@mui/material/styles";
+import { ArrowBack } from "@mui/icons-material";
+import { useRouter } from "@tanstack/react-router";
 
 const progress = [
   { d: "Mon", v: 35 }, { d: "Tue", v: 52 }, { d: "Wed", v: 48 },
@@ -26,11 +28,17 @@ export default function AnalyticsPage() {
   const theme = useTheme();
   const primary = theme.palette.primary.main;
   const secondary = theme.palette.secondary.main;
+  const router = useRouter();
   return (
     <Stack spacing={3}>
-      <Box>
-        <Typography variant="h4" component="h1">Analytics</Typography>
-        <Typography color="text.secondary">Track your interview readiness across topics over time.</Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <IconButton size="small" onClick={() => router.history.back()} sx={{ mr: 1 }}>
+          <ArrowBack fontSize="small" />
+        </IconButton>
+        <Box>
+          <Typography variant="h4" component="h1">Analytics</Typography>
+          <Typography color="text.secondary">Track your interview readiness across topics over time.</Typography>
+        </Box>
       </Box>
 
       <Grid container spacing={2.5}>

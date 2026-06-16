@@ -1,11 +1,11 @@
 import {
-  Box, Card, CardContent, Grid, Typography, LinearProgress, Avatar, Button, Chip, Stack,
+  Box, Card, CardContent, Grid, Typography, LinearProgress, Avatar, Button, Chip, Stack, IconButton, Tooltip,
 } from "@mui/material";
 import {
   TrendingUp, LocalFireDepartment, EmojiEvents, SmartToy, Quiz as QuizIcon,
-  RecordVoiceOver, Article, ArrowForward,
+  RecordVoiceOver, Article, ArrowForward, ArrowBack,
 } from "@mui/icons-material";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { useAppSelector } from "@/store";
 
 function StatCard({ icon, label, value, accent }: { icon: React.ReactNode; label: string; value: string; accent: string }) {
@@ -40,8 +40,16 @@ const quickActions = [
 
 export default function Dashboard() {
   const user = useAppSelector((s) => s.auth.user);
+  const router = useRouter();
   return (
     <Stack spacing={3}>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 1 }}>
+        <Tooltip title="Go back (Ctrl+B)">
+          <IconButton size="small" onClick={() => router.history.back()}>
+            <ArrowBack fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      </Box>
       <Card
         sx={{
           color: "#fff",
@@ -124,21 +132,23 @@ export default function Dashboard() {
               <Grid container spacing={2}>
                 {quickActions.map((q) => (
                   <Grid size={{ xs: 12, sm: 6 }} key={q.to}>
-                    <Card
-                      component={Link} to={q.to}
-                      sx={{
-                        textDecoration: "none", p: 2.5, height: "100%", display: "block",
-                        border: 1, borderColor: "divider",
-                        transition: "all .2s",
-                        "&:hover": { transform: "translateY(-2px)", borderColor: q.color, boxShadow: 3 },
-                      }}
-                    >
-                      <Box sx={{ width: 38, height: 38, borderRadius: 2, bgcolor: `${q.color}22`, color: q.color, display: "grid", placeItems: "center", mb: 1.5 }}>
-                        <ArrowForward fontSize="small" />
-                      </Box>
-                      <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>{q.title}</Typography>
-                      <Typography variant="body2" color="text.secondary">{q.desc}</Typography>
-                    </Card>
+                    <Tooltip title={`${q.title} - Click to start`}>
+                      <Card
+                        component={Link} to={q.to}
+                        sx={{
+                          textDecoration: "none", p: 2.5, height: "100%", display: "block",
+                          border: 1, borderColor: "divider",
+                          transition: "all .2s",
+                          "&:hover": { transform: "translateY(-2px)", borderColor: q.color, boxShadow: 3 },
+                        }}
+                      >
+                        <Box sx={{ width: 38, height: 38, borderRadius: 2, bgcolor: `${q.color}22`, color: q.color, display: "grid", placeItems: "center", mb: 1.5 }}>
+                          <ArrowForward fontSize="small" />
+                        </Box>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>{q.title}</Typography>
+                        <Typography variant="body2" color="text.secondary">{q.desc}</Typography>
+                      </Card>
+                    </Tooltip>
                   </Grid>
                 ))}
               </Grid>

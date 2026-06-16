@@ -1,11 +1,12 @@
 import {
   Box, Card, CardContent, Stack, Typography, Grid, Avatar, Table, TableBody, TableCell,
-  TableHead, TableRow, Chip, LinearProgress,
+  TableHead, TableRow, Chip, LinearProgress, IconButton,
 } from "@mui/material";
-import { People, Description, SmartToy, MemoryOutlined } from "@mui/icons-material";
+import { People, Description, SmartToy, MemoryOutlined, ArrowBack } from "@mui/icons-material";
+import { useRouter } from "@tanstack/react-router";
 
 const users = [
-  { name: "Aarav Patel", email: "aarav@interviewai.dev", plan: "Pro", status: "Active" },
+  { name: "Dharmendra Patel", email: "Dharmendra@interviewai.dev", plan: "Pro", status: "Active" },
   { name: "Mei Tanaka", email: "mei@example.com", plan: "Free", status: "Active" },
   { name: "Carlos Ruiz", email: "carlos@example.com", plan: "Pro", status: "Trial" },
   { name: "Priya Shah", email: "priya@example.com", plan: "Pro", status: "Active" },
@@ -27,11 +28,17 @@ function MetricCard({ icon, label, value, color }: { icon: React.ReactNode; labe
 }
 
 export default function AdminPage() {
+  const router = useRouter();
   return (
     <Stack spacing={3}>
-      <Box>
-        <Typography variant="h4">Admin dashboard</Typography>
-        <Typography color="text.secondary">Manage users, content and monitor system health.</Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <IconButton size="small" onClick={() => router.history.back()} sx={{ mr: 1 }}>
+          <ArrowBack fontSize="small" />
+        </IconButton>
+        <Box>
+          <Typography variant="h4">Admin dashboard</Typography>
+          <Typography color="text.secondary">Manage users, content and monitor system health.</Typography>
+        </Box>
       </Box>
       <Grid container spacing={2.5}>
         <Grid size={{ xs: 12, sm: 6, md: 3 }}><MetricCard icon={<People />} label="Total users" value="3,482" color="#6366f1" /></Grid>

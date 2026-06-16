@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import {
-  Box, Card, CardContent, Stack, Typography, Button, Chip, LinearProgress, TextField, Grid, Avatar,
+  Box, Card, CardContent, Stack, Typography, Button, Chip, LinearProgress, TextField, Grid, Avatar, IconButton,
 } from "@mui/material";
-import { PlayArrow, Stop, Timer, RecordVoiceOver, CheckCircle } from "@mui/icons-material";
+import { PlayArrow, Stop, Timer, RecordVoiceOver, CheckCircle, ArrowBack } from "@mui/icons-material";
+import { useRouter } from "@tanstack/react-router";
 
 const techs = ["Java", "Spring Boot", "Hibernate", "Microservices", "SQL", "DSA"];
 
@@ -21,6 +22,7 @@ export default function MockInterviewPage() {
   const [answer, setAnswer] = useState("");
   const [elapsed, setElapsed] = useState(0);
   const [done, setDone] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (!started || done) return;
@@ -31,7 +33,12 @@ export default function MockInterviewPage() {
   if (done) {
     return (
       <Stack spacing={3}>
-        <Typography variant="h4">Evaluation report</Typography>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <IconButton size="small" onClick={() => router.history.back()} sx={{ mr: 1 }}>
+            <ArrowBack fontSize="small" />
+          </IconButton>
+          <Typography variant="h4">Evaluation report</Typography>
+        </Box>
         <Card sx={{ border: 1, borderColor: "divider" }}>
           <CardContent>
             <Stack direction="row" spacing={3} sx={{ alignItems: "center" }}>
@@ -71,9 +78,14 @@ export default function MockInterviewPage() {
   if (!started) {
     return (
       <Stack spacing={3}>
-        <Box>
-          <Typography variant="h4">Mock Interview</Typography>
-          <Typography color="text.secondary">AI asks role-specific questions and evaluates your answers.</Typography>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <IconButton size="small" onClick={() => router.history.back()} sx={{ mr: 1 }}>
+            <ArrowBack fontSize="small" />
+          </IconButton>
+          <Box>
+            <Typography variant="h4">Mock Interview</Typography>
+            <Typography color="text.secondary">AI asks role-specific questions and evaluates your answers.</Typography>
+          </Box>
         </Box>
         <Card sx={{ border: 1, borderColor: "divider" }}>
           <CardContent>
@@ -99,13 +111,18 @@ export default function MockInterviewPage() {
 
   return (
     <Stack spacing={3}>
-      <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center" }}>
-        <Box>
-          <Typography variant="overline" color="text.secondary">{tech} interview</Typography>
-          <Typography variant="h5">Question {qIdx + 1} of {questions.length}</Typography>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <IconButton size="small" onClick={() => router.history.back()} sx={{ mr: 1 }}>
+            <ArrowBack fontSize="small" />
+          </IconButton>
+          <Box>
+            <Typography variant="overline" color="text.secondary">{tech} interview</Typography>
+            <Typography variant="h5">Question {qIdx + 1} of {questions.length}</Typography>
+          </Box>
         </Box>
         <Chip icon={<Timer />} label={`${Math.floor(elapsed/60).toString().padStart(2,"0")}:${(elapsed%60).toString().padStart(2,"0")}`} color="primary" />
-      </Stack>
+      </Box>
       <LinearProgress variant="determinate" value={((qIdx) / questions.length) * 100} sx={{ height: 6, borderRadius: 3 }} />
 
       <Card sx={{ border: 1, borderColor: "divider" }}>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Box, Card, Stack, Typography, IconButton, Button, Chip, LinearProgress } from "@mui/material";
 import { ArrowBack, ArrowForward, CheckCircle } from "@mui/icons-material";
+import { useRouter } from "@tanstack/react-router";
 
 const cards = [
   { q: "What is the difference between HashMap and ConcurrentHashMap?", a: "ConcurrentHashMap is thread-safe with finer-grained locking (bucket/segment level), allows concurrent reads, and disallows null keys/values." },
@@ -13,12 +14,20 @@ export default function FlashcardsPage() {
   const [flipped, setFlipped] = useState(false);
   const [learned, setLearned] = useState<Set<number>>(new Set());
   const c = cards[i];
+  const router = useRouter();
 
   return (
     <Stack spacing={3} sx={{ maxWidth: 720, mx: "auto" }}>
-      <Box sx={{ textAlign: "center" }}>
-        <Typography variant="h4">Flashcards</Typography>
-        <Typography color="text.secondary">Tap the card to flip · {learned.size} / {cards.length} learned</Typography>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <IconButton size="small" onClick={() => router.history.back()} sx={{ mr: 1 }}>
+            <ArrowBack fontSize="small" />
+          </IconButton>
+          <Box>
+            <Typography variant="h4">Flashcards</Typography>
+            <Typography color="text.secondary">Tap the card to flip · {learned.size} / {cards.length} learned</Typography>
+          </Box>
+        </Box>
       </Box>
       <LinearProgress variant="determinate" value={(learned.size / cards.length) * 100} sx={{ height: 6, borderRadius: 3 }} />
 

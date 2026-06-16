@@ -3,7 +3,8 @@ import {
   Box, Card, CardContent, Stack, Typography, Button, TextField, Table, TableBody, TableCell,
   TableHead, TableRow, Chip, IconButton, LinearProgress,
 } from "@mui/material";
-import { CloudUpload, Search, DeleteOutlined, Description } from "@mui/icons-material";
+import { CloudUpload, Search, DeleteOutlined, Description, ArrowBack } from "@mui/icons-material";
+import { useRouter } from "@tanstack/react-router";
 
 const seed = [
   { name: "spring-boot-reference.pdf", size: "2.4 MB", date: "2 days ago", status: "Processed" },
@@ -16,13 +17,19 @@ export default function DocumentsPage() {
   const [dragOver, setDragOver] = useState(false);
   const [query, setQuery] = useState("");
   const [docs, setDocs] = useState(seed);
+  const router = useRouter();
   const filtered = docs.filter((d) => d.name.toLowerCase().includes(query.toLowerCase()));
 
   return (
     <Stack spacing={3}>
-      <Box>
-        <Typography variant="h4">Documents</Typography>
-        <Typography color="text.secondary">Upload notes, references, and PDFs. PrepPilot indexes them for instant retrieval.</Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <IconButton size="small" onClick={() => router.history.back()} sx={{ mr: 1 }}>
+          <ArrowBack fontSize="small" />
+        </IconButton>
+        <Box>
+          <Typography variant="h4">Documents</Typography>
+          <Typography color="text.secondary">Upload notes, references, and PDFs. PrepPilot indexes them for instant retrieval.</Typography>
+        </Box>
       </Box>
 
       <Card
