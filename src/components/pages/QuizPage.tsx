@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box, Card, CardContent, Stack, Typography, Button, LinearProgress, Chip, RadioGroup,
-  FormControlLabel, Radio, Avatar,
+  FormControlLabel, Radio, Avatar, IconButton, Grid, Divider, Dialog, DialogTitle, DialogContent, DialogActions,
 } from "@mui/material";
-import { Timer, CheckCircle, Cancel, EmojiEvents } from "@mui/icons-material";
+import { Timer, CheckCircle, Cancel, EmojiEvents, ArrowBack, ChevronLeft, ChevronRight, Home, PlayArrow } from "@mui/icons-material";
+import { useRouter } from "@tanstack/react-router";
+
+const topics = ["Java", "Spring Boot", "Hibernate", "SQL", "DSA", "System Design", "Microservices"];
 
 const quiz = [
   {
@@ -31,19 +34,151 @@ export default function QuizPage() {
   const [selected, setSelected] = useState<number | null>(null);
   const [answers, setAnswers] = useState<number[]>([]);
   const [done, setDone] = useState(false);
+  const [wantAnotherQuiz, setWantAnotherQuiz] = useState(false);
+  const [nextQuizMode, setNextQuizMode] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes in seconds
+  const [showBackConfirm, setShowBackConfirm] = useState(false);
+  const router = useRouter();
 
   const current = quiz[idx];
   const score = answers.filter((a, i) => a === quiz[i].answer).length;
 
+  // Timer countdown effect
+  useEffect(() => {
+    if (done || !current) return; // Don't run timer when quiz is done
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          setDone(true); // Auto-submit when time runs out
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [done, current]);
+
+  // Format time as MM:SS
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  // Update selected answer when navigating to a different question
+  useEffect(() => {
+    if (idx < answers.length) {
+      // If this question has already been answered, show the previous answer
+      setSelected(answers[idx]);
+    } else {
+      // If this is a new unanswered question, clear the selection
+      setSelected(null);
+    }
+  }, [idx, answers]);
+
   if (done) {
+    if (wantAnotherQuiz) {
+      return (
+        <Stack spacing={3}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <IconButton 
+              size="small" 
+              onClick={() => {
+                setWantAnotherQuiz(false);
+                setNextQuizMode(false);
+              }} 
+              sx={{ mr: 1 }}
+            >
+              <ArrowBack fontSize="small" />
+            </IconButton>
+            <Typography variant="h4">Select a Topic</Typography>
+          </Box>
+          <Typography color="text.secondary">Choose a topic for your next quiz to keep the momentum going! 🚀</Typography>
+          <Grid container spacing={2}>
+            {topics.map((topic) => (
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={topic}>
+                <Card
+                  onClick={() => {
+                    setIdx(0);
+                    setSelected(null);
+                    setAnswers([]);
+                    setDone(false);
+                    setWantAnotherQuiz(false);
+                    setNextQuizMode(true);
+                    setTimeLeft(15 * 60);
+                  }}
+                  sx={{
+                    cursor: "pointer",
+                    border: 1,
+                    borderColor: "divider",
+                    p: 2.5,
+                    textAlign: "center",
+                    transition: "all .2s",
+                    "&:hover": {
+                      transform: "translateY(-4px)",
+                      boxShadow: 3,
+                      borderColor: "primary.main",
+                    },
+                  }}
+                >
+                  <CardContent sx={{ p: 0 }}>
+                    <Box sx={{ width: 48, height: 48, borderRadius: 2, bgcolor: "primary.main", color: "#fff", display: "grid", placeItems: "center", mx: "auto", mb: 1.5 }}>
+                      <PlayArrow />
+                    </Box>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                      {topic}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: "block" }}>
+                      Start quiz
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+          <Button
+            variant="outlined" startIcon={<Home />} 
+            onClick={() => {
+              setNextQuizMode(false);
+              router.navigate({ to: "/dashboard" });
+            }}
+            sx={{ mt: 2 }}
+          >
+            Go to Home
+          </Button>
+        </Stack>
+      );
+    }
+
     return (
       <Stack spacing={3}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <IconButton 
+            size="small" 
+            onClick={() => {
+              setNextQuizMode(false);
+              router.history.back();
+            }} 
+            sx={{ mr: 1 }}
+          >
+            <ArrowBack fontSize="small" />
+          </IconButton>
+          <Typography variant="h4">Quiz Results</Typography>
+        </Box>
         <Card sx={{ border: 1, borderColor: "divider", textAlign: "center", p: 3 }}>
-          <Avatar sx={{ width: 80, height: 80, bgcolor: "primary.main", mx: "auto", mb: 2 }}>
-            <EmojiEvents fontSize="large" />
-          </Avatar>
-          <Typography variant="h4">{score} / {quiz.length}</Typography>
-          <Typography color="text.secondary">Great work! Review the explanations below.</Typography>
+          <CardContent>
+            <Stack direction="row" spacing={3} sx={{ alignItems: "center" }}>
+              <Avatar sx={{ width: 80, height: 80, bgcolor: "primary.main", mx: "auto", mb: 2 }}>
+                <EmojiEvents fontSize="large" />
+              </Avatar>
+              <Box>
+                <Typography variant="h4">{score} / {quiz.length}</Typography>
+                <Typography color="text.secondary">Great work! Review the explanations below.</Typography>
+              </Box>
+            </Stack>
+          </CardContent>
         </Card>
         {quiz.map((q, i) => {
           const correct = answers[i] === q.answer;
@@ -64,22 +199,86 @@ export default function QuizPage() {
             </Card>
           );
         })}
-        <Button variant="contained" onClick={() => { setIdx(0); setSelected(null); setAnswers([]); setDone(false); }}>
-          Restart quiz
-        </Button>
+        <Divider sx={{ my: 1 }} />
+        <Card sx={{ border: 1, borderColor: "primary.main", bgcolor: "primary.main", color: "#fff" }}>
+          <CardContent>
+            <Stack direction="row" spacing={2} sx={{ alignItems: "center", justifyContent: "space-between" }}>
+              <Box>
+                <Typography variant="h6" sx={{ fontWeight: 700 }}>Ready for more?</Typography>
+                <Typography variant="body2" sx={{ opacity: 0.9, mt: 0.5 }}>
+                  Practice another topic to boost your skills 🚀
+                </Typography>
+              </Box>
+              <Button
+                variant="contained" sx={{ bgcolor: "#fff", color: "primary.main", "&:hover": { bgcolor: "#f1f5f9" } }}
+                endIcon={<ChevronRight />}
+                onClick={() => {
+                  setWantAnotherQuiz(true);
+                  setNextQuizMode(false);
+                }}
+              >
+                Next Quiz
+              </Button>
+            </Stack>
+          </CardContent>
+        </Card>
+        <Stack direction="row" spacing={1.5}>
+          <Button
+            variant="outlined" 
+            onClick={() => { 
+              setIdx(0); 
+              setSelected(null); 
+              setAnswers([]); 
+              setDone(false);
+              setTimeLeft(15 * 60);
+              setNextQuizMode(false);
+            }}
+            sx={{ flex: 1 }}
+          >
+            Restart Quiz
+          </Button>
+          <Button
+            variant="contained" startIcon={<Home />} 
+            onClick={() => {
+              setNextQuizMode(false);
+              router.navigate({ to: "/dashboard" });
+            }}
+            sx={{ flex: 1 }}
+          >
+            Go Home
+          </Button>
+        </Stack>
       </Stack>
     );
   }
 
   return (
     <Stack spacing={3}>
-      <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center" }}>
-        <Typography variant="h4">Quiz</Typography>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <IconButton 
+            size="small" 
+            onClick={() => {
+              if (nextQuizMode) {
+                // Show confirmation dialog before going back
+                setShowBackConfirm(true);
+              } else {
+                // Go back using router history
+                router.history.back();
+              }
+            }} 
+            sx={{ mr: 1 }}
+            title={nextQuizMode ? "Back to topic selection" : "Go back"}
+          >
+            <ArrowBack fontSize="small" />
+          </IconButton>
+          <Typography variant="h4">Quiz</Typography>
+        </Box>
         <Stack direction="row" spacing={1}>
-          <Chip icon={<Timer />} label="14:32" />
+          <Chip icon={<Timer />} label={formatTime(timeLeft)} color={timeLeft < 60 ? "error" : "default"} />
           <Chip label={`Score: ${score}`} color="primary" />
         </Stack>
-      </Stack>
+      </Box>
       <LinearProgress variant="determinate" value={(idx / quiz.length) * 100} sx={{ height: 6, borderRadius: 3 }} />
 
       <Card sx={{ border: 1, borderColor: "divider" }}>
@@ -98,12 +297,30 @@ export default function QuizPage() {
               />
             ))}
           </RadioGroup>
-          <Stack direction="row" sx={{ justifyContent: "flex-end", mt: 2 }}>
+          <Stack direction="row" sx={{ justifyContent: "space-between", mt: 2 }}>
             <Button
-              variant="contained" disabled={selected === null}
+              variant="outlined" startIcon={<ChevronLeft />}
+              disabled={idx === 0}
               onClick={() => {
-                const next = [...answers, selected!];
-                setAnswers(next);
+                setIdx(idx - 1);
+              }}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="contained" endIcon={<ChevronRight />}
+              disabled={selected === null}
+              onClick={() => {
+                if (idx < answers.length) {
+                  // Update existing answer
+                  const updated = [...answers];
+                  updated[idx] = selected!;
+                  setAnswers(updated);
+                } else {
+                  // Add new answer
+                  const next = [...answers, selected!];
+                  setAnswers(next);
+                }
                 setSelected(null);
                 if (idx + 1 >= quiz.length) setDone(true);
                 else setIdx(idx + 1);
@@ -114,6 +331,33 @@ export default function QuizPage() {
           </Stack>
         </CardContent>
       </Card>
+
+      {/* Confirmation Dialog for Back Button */}
+      <Dialog open={showBackConfirm} onClose={() => setShowBackConfirm(false)}>
+        <DialogTitle sx={{ fontWeight: 700 }}>Leave Quiz?</DialogTitle>
+        <DialogContent>
+          <Typography>
+            Are you sure you want to go back to topic selection? Your current progress will be lost.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ p: 2 }}>
+          <Button onClick={() => setShowBackConfirm(false)} variant="outlined">
+            No, Continue
+          </Button>
+          <Button
+            onClick={() => {
+              setShowBackConfirm(false);
+              setDone(true);
+              setWantAnotherQuiz(true);
+              setNextQuizMode(false);
+            }}
+            variant="contained"
+            color="error"
+          >
+            Yes, Go Back
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Stack>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Box, Card, CardContent, Stack, Typography, Button, Tabs, Tab, TextField } from "@mui/material";
-import { CloudUpload, Download, AutoAwesome } from "@mui/icons-material";
+import { Box, Card, CardContent, Stack, Typography, Button, Tabs, Tab, TextField, IconButton } from "@mui/material";
+import { CloudUpload, Download, AutoAwesome, ArrowBack } from "@mui/icons-material";
+import { useRouter } from "@tanstack/react-router";
 
 const short = "Microservices decompose a single application into small, independently deployable services that communicate over the network — typically HTTP/gRPC.";
 const long = `Microservices architecture is an approach where a system is built as a collection of small, autonomous services.
@@ -20,11 +21,17 @@ Trade-offs:
 
 export default function NotesPage() {
   const [tab, setTab] = useState(0);
+  const router = useRouter();
   return (
     <Stack spacing={3}>
-      <Box>
-        <Typography variant="h4">Notes Summarizer</Typography>
-        <Typography color="text.secondary">Paste long notes or upload a file. Get crisp interview-ready summaries.</Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <IconButton size="small" onClick={() => router.history.back()} sx={{ mr: 1 }}>
+          <ArrowBack fontSize="small" />
+        </IconButton>
+        <Box>
+          <Typography variant="h4">Notes Summarizer</Typography>
+          <Typography color="text.secondary">Paste long notes or upload a file. Get crisp interview-ready summaries.</Typography>
+        </Box>
       </Box>
 
       <Card sx={{ border: 1, borderColor: "divider" }}>

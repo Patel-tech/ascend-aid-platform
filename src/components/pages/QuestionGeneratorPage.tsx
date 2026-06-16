@@ -3,7 +3,8 @@ import {
   Box, Card, CardContent, Stack, Typography, Button, FormControl, InputLabel, Select, MenuItem,
   Grid, IconButton, Chip,
 } from "@mui/material";
-import { AutoAwesome, BookmarkBorder, PictureAsPdf } from "@mui/icons-material";
+import { AutoAwesome, BookmarkBorder, PictureAsPdf, ArrowBack } from "@mui/icons-material";
+import { useRouter } from "@tanstack/react-router";
 
 const sample = [
   { q: "Explain how Java's garbage collector handles the young generation.", t: "Concept" },
@@ -17,12 +18,18 @@ export default function QuestionGeneratorPage() {
   const [topic, setTopic] = useState("Spring Boot");
   const [difficulty, setDifficulty] = useState("Medium");
   const [questions, setQuestions] = useState(sample);
+  const router = useRouter();
 
   return (
     <Stack spacing={3}>
-      <Box>
-        <Typography variant="h4">Question Generator</Typography>
-        <Typography color="text.secondary">Generate fresh interview questions tailored to topic & difficulty.</Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <IconButton size="small" onClick={() => router.history.back()} sx={{ mr: 1 }}>
+          <ArrowBack fontSize="small" />
+        </IconButton>
+        <Box>
+          <Typography variant="h4">Question Generator</Typography>
+          <Typography color="text.secondary">Generate fresh interview questions tailored to topic & difficulty.</Typography>
+        </Box>
       </Box>
 
       <Card sx={{ border: 1, borderColor: "divider" }}>

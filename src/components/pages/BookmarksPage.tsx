@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Box, Card, CardContent, Stack, Typography, TextField, Chip, IconButton } from "@mui/material";
-import { Search, BookmarkRemove } from "@mui/icons-material";
+import { Search, BookmarkRemove, ArrowBack } from "@mui/icons-material";
+import { useRouter } from "@tanstack/react-router";
 
 const bookmarks = [
   { topic: "Spring Boot", q: "How does Spring Boot's @ConditionalOnClass work?", a: "It registers a bean only if the specified class is present on the classpath at evaluation time." },
@@ -11,14 +12,20 @@ const bookmarks = [
 
 export default function BookmarksPage() {
   const [q, setQ] = useState("");
+  const router = useRouter();
   const list = bookmarks.filter((b) =>
     (b.q + b.a + b.topic).toLowerCase().includes(q.toLowerCase()),
   );
   return (
     <Stack spacing={3}>
-      <Box>
-        <Typography variant="h4">Bookmarks</Typography>
-        <Typography color="text.secondary">Saved questions and answers for quick revision.</Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <IconButton size="small" onClick={() => router.history.back()} sx={{ mr: 1 }}>
+          <ArrowBack fontSize="small" />
+        </IconButton>
+        <Box>
+          <Typography variant="h4">Bookmarks</Typography>
+          <Typography color="text.secondary">Saved questions and answers for quick revision.</Typography>
+        </Box>
       </Box>
       <TextField
         size="small" placeholder="Search bookmarks…" value={q} onChange={(e) => setQ(e.target.value)}

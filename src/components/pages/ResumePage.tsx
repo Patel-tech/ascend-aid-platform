@@ -1,7 +1,8 @@
 import {
-  Box, Card, CardContent, Stack, Typography, Button, Grid, Chip, LinearProgress, Avatar,
+  Box, Card, CardContent, Stack, Typography, Button, Grid, Chip, LinearProgress, Avatar, IconButton,
 } from "@mui/material";
-import { CloudUpload, CheckCircle, WarningAmber, AutoAwesome } from "@mui/icons-material";
+import { CloudUpload, CheckCircle, WarningAmber, AutoAwesome, ArrowBack } from "@mui/icons-material";
+import { useRouter } from "@tanstack/react-router";
 
 const skills = ["Java", "Spring Boot", "JPA/Hibernate", "REST APIs", "Docker", "Kafka", "AWS", "JUnit"];
 const strengths = ["Strong Spring Boot project depth", "Clean REST API design", "Good unit test coverage"];
@@ -9,11 +10,17 @@ const weaknesses = ["Limited Kubernetes exposure", "No system design case studie
 const recommended = ["Microservices patterns", "Distributed caching", "Observability (OpenTelemetry)"];
 
 export default function ResumePage() {
+  const router = useRouter();
   return (
     <Stack spacing={3}>
-      <Box>
-        <Typography variant="h4">Resume Analyzer</Typography>
-        <Typography color="text.secondary">AI-powered scoring with actionable feedback.</Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <IconButton size="small" onClick={() => router.history.back()} sx={{ mr: 1 }}>
+          <ArrowBack fontSize="small" />
+        </IconButton>
+        <Box>
+          <Typography variant="h4">Resume Analyzer</Typography>
+          <Typography color="text.secondary">AI-powered scoring with actionable feedback.</Typography>
+        </Box>
       </Box>
 
       <Card sx={{ border: "2px dashed", borderColor: "divider", textAlign: "center", p: 4 }}>

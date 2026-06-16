@@ -11,6 +11,8 @@ import {
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { toggleMode } from "@/store/themeSlice";
+import BreadcrumbNav from "./BreadcrumbNav";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 
 const drawerWidth = 260;
 
@@ -105,6 +107,9 @@ export function AppShell({ children }: { children: ReactNode }) {
   const dispatch = useAppDispatch();
   const mode = useAppSelector((s) => s.theme.mode);
   const user = useAppSelector((s) => s.auth.user);
+
+  // Enable keyboard shortcuts
+  useKeyboardShortcuts();
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "background.default" }}>
@@ -216,7 +221,10 @@ export function AppShell({ children }: { children: ReactNode }) {
         }}
       >
         <Toolbar />
-        <Box sx={{ p: { xs: 2, md: 3.5 } }}>{children}</Box>
+        <Box sx={{ p: { xs: 2, md: 3.5 } }}>
+          <BreadcrumbNav />
+          {children}
+        </Box>
       </Box>
     </Box>
   );

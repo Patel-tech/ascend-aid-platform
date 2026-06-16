@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface User { name: string; email: string; role: "user" | "admin"; avatar?: string }
 interface AuthState { user: User | null }
@@ -15,8 +15,13 @@ const authSlice = createSlice({
     login(state) {
       state.user = { name: "Aarav Patel", email: "aarav@interviewai.dev", role: "admin" };
     },
+    updateUser(state, action: PayloadAction<Partial<User>>) {
+      if (state.user) {
+        state.user = { ...state.user, ...action.payload };
+      }
+    },
   },
 });
 
-export const { logout, login } = authSlice.actions;
+export const { logout, login, updateUser } = authSlice.actions;
 export default authSlice.reducer;
