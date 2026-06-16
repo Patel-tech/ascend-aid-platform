@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, Card, Stack, Typography, IconButton, Button, Chip, LinearProgress } from "@mui/material";
-import { ArrowBack, ArrowForward, CheckCircle, Navigate } from "@mui/icons-material";
+import { ArrowBack, ArrowForward, CheckCircle } from "@mui/icons-material";
 import { useRouter } from "@tanstack/react-router";
 
 const cards = [
