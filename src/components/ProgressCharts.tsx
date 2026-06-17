@@ -146,7 +146,7 @@ export default function ProgressCharts() {
                   const reached = progressPct >= m.at;
                   return (
                     <MuiTooltip key={m.label} title={`${m.label} (${m.at}%)`}>
-                      <Stack alignItems="center" spacing={0.5} sx={{ flex: 1, minWidth: 0 }}>
+                      <Stack spacing={0.5} sx={{ flex: 1, minWidth: 0, alignItems: "center" }}>
                         <Box sx={{
                           width: 30, height: 30, borderRadius: "50%",
                           display: "grid", placeItems: "center",
