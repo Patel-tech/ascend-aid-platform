@@ -201,6 +201,8 @@ export default function Dashboard() {
           </Stack>
         </CardContent>
       </Card>
+
+      <ProgressCharts />
     </Stack>
   );
 }
