@@ -122,7 +122,7 @@ export default function ProgressCharts() {
                     value={target}
                     onChange={(e) => setTarget(e.target.value)}
                     sx={{ mt: 1.5, maxWidth: 200 }}
-                    inputProps={{ "aria-label": "Target interview date" }}
+                    slotProps={{ htmlInput: { "aria-label": "Target interview date" } }}
                   />
                 </MuiTooltip>
               </Box>
