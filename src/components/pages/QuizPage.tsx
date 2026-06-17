@@ -1,12 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   Box, Card, CardContent, Stack, Typography, Button, LinearProgress, Chip, RadioGroup,
   FormControlLabel, Radio, Avatar, IconButton, Grid, Divider, Dialog, DialogTitle, DialogContent, DialogActions,
+  TextField, MenuItem, Tooltip, InputAdornment,
 } from "@mui/material";
-import { Timer, CheckCircle, Cancel, EmojiEvents, ArrowBack, ChevronLeft, ChevronRight, Home, PlayArrow } from "@mui/icons-material";
+import { Timer, CheckCircle, Cancel, EmojiEvents, ArrowBack, ChevronLeft, ChevronRight, Home, PlayArrow, Search } from "@mui/icons-material";
 import { useRouter } from "@tanstack/react-router";
 
-const topics = ["Java", "Spring Boot", "Hibernate", "SQL", "DSA", "System Design", "Microservices"];
+type Difficulty = "Easy" | "Medium" | "Hard";
+const topics: { name: string; difficulty: Difficulty; minutes: number; updated: string }[] = [
+  { name: "Java",           difficulty: "Easy",   minutes: 10, updated: "2026-06-10" },
+  { name: "Spring Boot",    difficulty: "Medium", minutes: 15, updated: "2026-06-14" },
+  { name: "Hibernate",      difficulty: "Medium", minutes: 12, updated: "2026-05-28" },
+  { name: "SQL",            difficulty: "Easy",   minutes: 10, updated: "2026-06-12" },
+  { name: "DSA",            difficulty: "Hard",   minutes: 25, updated: "2026-06-16" },
+  { name: "System Design",  difficulty: "Hard",   minutes: 30, updated: "2026-06-15" },
+  { name: "Microservices",  difficulty: "Medium", minutes: 20, updated: "2026-06-09" },
+];
+
+type SortKey = "name" | "difficulty" | "minutes" | "updated";
+const difficultyRank: Record<Difficulty, number> = { Easy: 0, Medium: 1, Hard: 2 };
+const difficultyColor: Record<Difficulty, "success" | "warning" | "error"> = {
+  Easy: "success", Medium: "warning", Hard: "error",
+};
 
 const quiz = [
   {
@@ -38,7 +54,26 @@ export default function QuizPage() {
   const [nextQuizMode, setNextQuizMode] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes in seconds
   const [showBackConfirm, setShowBackConfirm] = useState(false);
+  const [topicQuery, setTopicQuery] = useState("");
+  const [topicDifficulty, setTopicDifficulty] = useState<"All" | Difficulty>("All");
+  const [topicSort, setTopicSort] = useState<SortKey>("name");
   const router = useRouter();
+
+  const filteredTopics = useMemo(() => {
+    let list = topics.filter((t) =>
+      t.name.toLowerCase().includes(topicQuery.toLowerCase()) &&
+      (topicDifficulty === "All" || t.difficulty === topicDifficulty),
+    );
+    list = [...list].sort((a, b) => {
+      switch (topicSort) {
+        case "difficulty": return difficultyRank[a.difficulty] - difficultyRank[b.difficulty];
+        case "minutes":    return a.minutes - b.minutes;
+        case "updated":    return b.updated.localeCompare(a.updated);
+        default:           return a.name.localeCompare(b.name);
+      }
+    });
+    return list;
+  }, [topicQuery, topicDifficulty, topicSort]);
 
   const current = quiz[idx];
   const score = answers.filter((a, i) => a === quiz[i].answer).length;
@@ -96,45 +131,94 @@ export default function QuizPage() {
             <Typography variant="h4">Select a Topic</Typography>
           </Box>
           <Typography color="text.secondary">Choose a topic for your next quiz to keep the momentum going! 🚀</Typography>
+
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5}>
+            <TextField
+              size="small"
+              placeholder="Search topics…"
+              value={topicQuery}
+              onChange={(e) => setTopicQuery(e.target.value)}
+              aria-label="Search topics"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start"><Search fontSize="small" /></InputAdornment>
+                  ),
+                },
+              }}
+              sx={{ flex: 1 }}
+            />
+            <Tooltip title="Filter by difficulty level">
+              <TextField
+                select size="small" label="Difficulty"
+                value={topicDifficulty}
+                onChange={(e) => setTopicDifficulty(e.target.value as "All" | Difficulty)}
+                sx={{ minWidth: 140 }}
+              >
+                {["All", "Easy", "Medium", "Hard"].map((d) => (
+                  <MenuItem key={d} value={d}>{d}</MenuItem>
+                ))}
+              </TextField>
+            </Tooltip>
+            <Tooltip title="Sort topics">
+              <TextField
+                select size="small" label="Sort by"
+                value={topicSort}
+                onChange={(e) => setTopicSort(e.target.value as SortKey)}
+                sx={{ minWidth: 170 }}
+              >
+                <MenuItem value="name">Name (A–Z)</MenuItem>
+                <MenuItem value="difficulty">Difficulty</MenuItem>
+                <MenuItem value="minutes">Completion time</MenuItem>
+                <MenuItem value="updated">Recently updated</MenuItem>
+              </TextField>
+            </Tooltip>
+          </Stack>
+
           <Grid container spacing={2}>
-            {topics.map((topic) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={topic}>
-                <Card
-                  onClick={() => {
-                    setIdx(0);
-                    setSelected(null);
-                    setAnswers([]);
-                    setDone(false);
-                    setWantAnotherQuiz(false);
-                    setNextQuizMode(true);
-                    setTimeLeft(15 * 60);
-                  }}
-                  sx={{
-                    cursor: "pointer",
-                    border: 1,
-                    borderColor: "divider",
-                    p: 2.5,
-                    textAlign: "center",
-                    transition: "all .2s",
-                    "&:hover": {
-                      transform: "translateY(-4px)",
-                      boxShadow: 3,
-                      borderColor: "primary.main",
-                    },
-                  }}
-                >
-                  <CardContent sx={{ p: 0 }}>
-                    <Box sx={{ width: 48, height: 48, borderRadius: 2, bgcolor: "primary.main", color: "#fff", display: "grid", placeItems: "center", mx: "auto", mb: 1.5 }}>
-                      <PlayArrow />
-                    </Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                      {topic}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: "block" }}>
-                      Start quiz
-                    </Typography>
-                  </CardContent>
-                </Card>
+            {filteredTopics.map((topic) => (
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={topic.name}>
+                <Tooltip title={`${topic.difficulty} · ~${topic.minutes} min`}>
+                  <Card
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Start ${topic.name} quiz, ${topic.difficulty}, about ${topic.minutes} minutes`}
+                    onClick={() => {
+                      setIdx(0);
+                      setSelected(null);
+                      setAnswers([]);
+                      setDone(false);
+                      setWantAnotherQuiz(false);
+                      setNextQuizMode(true);
+                      setTimeLeft(15 * 60);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        (e.currentTarget as HTMLElement).click();
+                      }
+                    }}
+                    sx={{
+                      cursor: "pointer", border: 1, borderColor: "divider", p: 2.5, textAlign: "center",
+                      transition: "all .2s",
+                      "&:hover": { transform: "translateY(-4px)", boxShadow: 3, borderColor: "primary.main" },
+                      "&:focus-visible": { outline: "2px solid", outlineColor: "primary.main", outlineOffset: 2 },
+                    }}
+                  >
+                    <CardContent sx={{ p: 0 }}>
+                      <Box sx={{ width: 48, height: 48, borderRadius: 2, bgcolor: "primary.main", color: "#fff", display: "grid", placeItems: "center", mx: "auto", mb: 1.5 }}>
+                        <PlayArrow />
+                      </Box>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                        {topic.name}
+                      </Typography>
+                      <Stack direction="row" spacing={1} sx={{ justifyContent: "center", mt: 1 }}>
+                        <Chip size="small" label={topic.difficulty} color={difficultyColor[topic.difficulty]} variant="outlined" />
+                        <Chip size="small" icon={<Timer sx={{ fontSize: 14 }} />} label={`${topic.minutes}m`} variant="outlined" />
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                </Tooltip>
               </Grid>
             ))}
           </Grid>
