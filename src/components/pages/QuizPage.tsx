@@ -219,9 +219,6 @@ export default function QuizPage() {
                     </CardContent>
                   </Card>
                 </Tooltip>
-
-                  </CardContent>
-                </Card>
               </Grid>
             ))}
           </Grid>
