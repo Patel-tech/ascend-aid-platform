@@ -54,7 +54,26 @@ export default function QuizPage() {
   const [nextQuizMode, setNextQuizMode] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes in seconds
   const [showBackConfirm, setShowBackConfirm] = useState(false);
+  const [topicQuery, setTopicQuery] = useState("");
+  const [topicDifficulty, setTopicDifficulty] = useState<"All" | Difficulty>("All");
+  const [topicSort, setTopicSort] = useState<SortKey>("name");
   const router = useRouter();
+
+  const filteredTopics = useMemo(() => {
+    let list = topics.filter((t) =>
+      t.name.toLowerCase().includes(topicQuery.toLowerCase()) &&
+      (topicDifficulty === "All" || t.difficulty === topicDifficulty),
+    );
+    list = [...list].sort((a, b) => {
+      switch (topicSort) {
+        case "difficulty": return difficultyRank[a.difficulty] - difficultyRank[b.difficulty];
+        case "minutes":    return a.minutes - b.minutes;
+        case "updated":    return b.updated.localeCompare(a.updated);
+        default:           return a.name.localeCompare(b.name);
+      }
+    });
+    return list;
+  }, [topicQuery, topicDifficulty, topicSort]);
 
   const current = quiz[idx];
   const score = answers.filter((a, i) => a === quiz[i].answer).length;
