@@ -1,12 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   Box, Card, CardContent, Stack, Typography, Button, LinearProgress, Chip, RadioGroup,
   FormControlLabel, Radio, Avatar, IconButton, Grid, Divider, Dialog, DialogTitle, DialogContent, DialogActions,
+  TextField, MenuItem, Tooltip, InputAdornment,
 } from "@mui/material";
-import { Timer, CheckCircle, Cancel, EmojiEvents, ArrowBack, ChevronLeft, ChevronRight, Home, PlayArrow } from "@mui/icons-material";
+import { Timer, CheckCircle, Cancel, EmojiEvents, ArrowBack, ChevronLeft, ChevronRight, Home, PlayArrow, Search } from "@mui/icons-material";
 import { useRouter } from "@tanstack/react-router";
 
-const topics = ["Java", "Spring Boot", "Hibernate", "SQL", "DSA", "System Design", "Microservices"];
+type Difficulty = "Easy" | "Medium" | "Hard";
+const topics: { name: string; difficulty: Difficulty; minutes: number; updated: string }[] = [
+  { name: "Java",           difficulty: "Easy",   minutes: 10, updated: "2026-06-10" },
+  { name: "Spring Boot",    difficulty: "Medium", minutes: 15, updated: "2026-06-14" },
+  { name: "Hibernate",      difficulty: "Medium", minutes: 12, updated: "2026-05-28" },
+  { name: "SQL",            difficulty: "Easy",   minutes: 10, updated: "2026-06-12" },
+  { name: "DSA",            difficulty: "Hard",   minutes: 25, updated: "2026-06-16" },
+  { name: "System Design",  difficulty: "Hard",   minutes: 30, updated: "2026-06-15" },
+  { name: "Microservices",  difficulty: "Medium", minutes: 20, updated: "2026-06-09" },
+];
+
+type SortKey = "name" | "difficulty" | "minutes" | "updated";
+const difficultyRank: Record<Difficulty, number> = { Easy: 0, Medium: 1, Hard: 2 };
+const difficultyColor: Record<Difficulty, "success" | "warning" | "error"> = {
+  Easy: "success", Medium: "warning", Hard: "error",
+};
 
 const quiz = [
   {
