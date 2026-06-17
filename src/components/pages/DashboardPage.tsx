@@ -7,6 +7,7 @@ import {
 } from "@mui/icons-material";
 import { Link, useRouter } from "@tanstack/react-router";
 import { useAppSelector } from "@/store";
+import ProgressCharts from "@/components/ProgressCharts";
 
 function StatCard({ icon, label, value, accent }: { icon: React.ReactNode; label: string; value: string; accent: string }) {
   return (
