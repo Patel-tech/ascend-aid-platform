@@ -6,7 +6,7 @@ import {
 import {
   Dashboard as DashboardIcon, SmartToy, Description, RecordVoiceOver, QuestionAnswer, Quiz,
   Article, EventNote, Style, Bookmark, Insights, Settings, Menu as MenuIcon, Search,
-  Notifications, LightMode, DarkMode, Logout, AdminPanelSettings, AutoAwesome,
+  Notifications, LightMode, DarkMode, Logout, AdminPanelSettings, AutoAwesome, EmojiEvents,
 } from "@mui/icons-material";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useAppDispatch, useAppSelector } from "@/store";
@@ -28,6 +28,7 @@ const nav = [
   { to: "/notes", label: "Notes Summarizer", icon: <Article /> },
   { to: "/flashcards", label: "Flashcards", icon: <Style /> },
   { to: "/bookmarks", label: "Bookmarks", icon: <Bookmark /> },
+  { to: "/leaderboard", label: "Leaderboard", icon: <EmojiEvents /> },
   { to: "/analytics", label: "Analytics", icon: <Insights /> },
   { to: "/admin", label: "Admin", icon: <AdminPanelSettings /> },
   { to: "/settings", label: "Settings", icon: <Settings /> },

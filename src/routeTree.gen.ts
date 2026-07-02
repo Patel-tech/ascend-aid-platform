@@ -22,6 +22,7 @@ import { Route as AppQuizRouteImport } from './routes/_app.quiz'
 import { Route as AppQuestionGeneratorRouteImport } from './routes/_app.question-generator'
 import { Route as AppNotesRouteImport } from './routes/_app.notes'
 import { Route as AppMockInterviewRouteImport } from './routes/_app.mock-interview'
+import { Route as AppLeaderboardRouteImport } from './routes/_app.leaderboard'
 import { Route as AppFlashcardsRouteImport } from './routes/_app.flashcards'
 import { Route as AppDocumentsRouteImport } from './routes/_app.documents'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
@@ -94,6 +95,11 @@ const AppMockInterviewRoute = AppMockInterviewRouteImport.update({
   path: '/mock-interview',
   getParentRoute: () => AppRoute,
 } as any)
+const AppLeaderboardRoute = AppLeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppFlashcardsRoute = AppFlashcardsRouteImport.update({
   id: '/flashcards',
   path: '/flashcards',
@@ -140,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AppDashboardRoute
   '/documents': typeof AppDocumentsRoute
   '/flashcards': typeof AppFlashcardsRoute
+  '/leaderboard': typeof AppLeaderboardRoute
   '/mock-interview': typeof AppMockInterviewRoute
   '/notes': typeof AppNotesRoute
   '/question-generator': typeof AppQuestionGeneratorRoute
@@ -161,6 +168,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AppDashboardRoute
   '/documents': typeof AppDocumentsRoute
   '/flashcards': typeof AppFlashcardsRoute
+  '/leaderboard': typeof AppLeaderboardRoute
   '/mock-interview': typeof AppMockInterviewRoute
   '/notes': typeof AppNotesRoute
   '/question-generator': typeof AppQuestionGeneratorRoute
@@ -184,6 +192,7 @@ export interface FileRoutesById {
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/documents': typeof AppDocumentsRoute
   '/_app/flashcards': typeof AppFlashcardsRoute
+  '/_app/leaderboard': typeof AppLeaderboardRoute
   '/_app/mock-interview': typeof AppMockInterviewRoute
   '/_app/notes': typeof AppNotesRoute
   '/_app/question-generator': typeof AppQuestionGeneratorRoute
@@ -207,6 +216,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/documents'
     | '/flashcards'
+    | '/leaderboard'
     | '/mock-interview'
     | '/notes'
     | '/question-generator'
@@ -228,6 +238,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/documents'
     | '/flashcards'
+    | '/leaderboard'
     | '/mock-interview'
     | '/notes'
     | '/question-generator'
@@ -250,6 +261,7 @@ export interface FileRouteTypes {
     | '/_app/dashboard'
     | '/_app/documents'
     | '/_app/flashcards'
+    | '/_app/leaderboard'
     | '/_app/mock-interview'
     | '/_app/notes'
     | '/_app/question-generator'
@@ -364,6 +376,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMockInterviewRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/leaderboard': {
+      id: '/_app/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof AppLeaderboardRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/flashcards': {
       id: '/_app/flashcards'
       path: '/flashcards'
@@ -424,6 +443,7 @@ interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppDocumentsRoute: typeof AppDocumentsRoute
   AppFlashcardsRoute: typeof AppFlashcardsRoute
+  AppLeaderboardRoute: typeof AppLeaderboardRoute
   AppMockInterviewRoute: typeof AppMockInterviewRoute
   AppNotesRoute: typeof AppNotesRoute
   AppQuestionGeneratorRoute: typeof AppQuestionGeneratorRoute
@@ -441,6 +461,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppDocumentsRoute: AppDocumentsRoute,
   AppFlashcardsRoute: AppFlashcardsRoute,
+  AppLeaderboardRoute: AppLeaderboardRoute,
   AppMockInterviewRoute: AppMockInterviewRoute,
   AppNotesRoute: AppNotesRoute,
   AppQuestionGeneratorRoute: AppQuestionGeneratorRoute,
@@ -463,13 +484,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
