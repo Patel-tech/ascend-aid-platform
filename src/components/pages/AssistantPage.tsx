@@ -184,30 +184,113 @@ export default function AssistantPage() {
               {convo?.title ?? "New chat"}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              Powered by RAG over your uploaded documents
+              {modes.find((m) => m.id === mode)?.hint}
             </Typography>
           </Box>
         </Box>
 
+        {/* Mode selector */}
+        <Box sx={{ px: 2, py: 1.5, borderBottom: 1, borderColor: "divider", display: "flex", gap: 1, flexWrap: "wrap" }}>
+          {modes.map((m) => {
+            const active = m.id === mode;
+            return (
+              <Tooltip key={m.id} title={m.hint}>
+                <Chip
+                  icon={m.icon as React.ReactElement}
+                  label={m.label}
+                  onClick={() => setMode(m.id)}
+                  clickable
+                  sx={{
+                    fontWeight: 600,
+                    border: 1,
+                    borderColor: active ? m.color : "divider",
+                    bgcolor: active ? `${m.color}22` : "transparent",
+                    color: active ? m.color : "text.primary",
+                    "& .MuiChip-icon": { color: active ? m.color : "text.secondary" },
+                  }}
+                />
+              </Tooltip>
+            );
+          })}
+        </Box>
+
         <Box ref={scrollRef} sx={{ flex: 1, overflowY: "auto", p: { xs: 2, md: 3 } }}>
           {!convo?.messages.length && (
-            <Stack spacing={3} sx={{ alignItems: "center", textAlign: "center", mt: 6 }}>
+            <Stack spacing={3} sx={{ alignItems: "center", textAlign: "center", mt: 4 }}>
               <Avatar sx={{ width: 64, height: 64, bgcolor: "primary.main" }}>
                 <SmartToy fontSize="large" />
               </Avatar>
               <Box>
                 <Typography variant="h5" sx={{ fontWeight: 700 }}>How can I help you prep today?</Typography>
                 <Typography color="text.secondary" sx={{ mt: 1 }}>
-                  Ask anything about Java, Spring, SQL, DSA or system design.
+                  {mode === "next" && "I'll suggest what to study next based on your progress."}
+                  {mode === "wrong" && "Pick a recent wrong answer or ask about any missed question."}
+                  {mode === "ask" && "Ask any interview question — Java, Spring, SQL, DSA, system design."}
+                  {mode === "explain" && "I'll give a structured explanation with examples & follow-ups."}
                 </Typography>
               </Box>
+
+              {mode === "wrong" && (
+                <Stack spacing={1.5} sx={{ width: "100%", maxWidth: 560, textAlign: "left" }}>
+                  <Typography variant="overline" color="text.secondary">Recent incorrect answers</Typography>
+                  {recentWrongAnswers.map((w) => (
+                    <Card
+                      key={w.question}
+                      onClick={() => handleSend(`Explain why my answer to "${w.question}" was wrong.`, "wrong")}
+                      sx={{
+                        p: 1.5, border: 1, borderColor: "divider", cursor: "pointer",
+                        "&:hover": { borderColor: "#ef4444", boxShadow: 2 },
+                      }}
+                    >
+                      <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5 }}>
+                        <Chip label={w.topic} size="small" sx={{ height: 20, fontSize: 11 }} />
+                        <Typography variant="body2" sx={{ fontWeight: 600, flex: 1 }} noWrap>{w.question}</Typography>
+                      </Stack>
+                      <Stack direction="row" spacing={2} sx={{ alignItems: "center", pl: 0.5 }}>
+                        <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
+                          <Cancel sx={{ fontSize: 14, color: "#ef4444" }} />
+                          <Typography variant="caption" color="text.secondary">You: {w.yourAns}</Typography>
+                        </Stack>
+                        <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
+                          <CheckCircle sx={{ fontSize: 14, color: "#10b981" }} />
+                          <Typography variant="caption" color="text.secondary">Correct: {w.correct}</Typography>
+                        </Stack>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Stack>
+              )}
+
+              {mode === "next" && (
+                <Stack spacing={1.5} sx={{ width: "100%", maxWidth: 560, textAlign: "left" }}>
+                  <Typography variant="overline" color="text.secondary">Suggested next topics</Typography>
+                  {nextTopics.map((t) => (
+                    <Card key={t.name} sx={{ p: 1.5, border: 1, borderColor: "divider" }}>
+                      <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
+                        <Avatar sx={{ bgcolor: "#10b98122", color: "#10b981", width: 32, height: 32 }}>
+                          <TrendingUp fontSize="small" />
+                        </Avatar>
+                        <Box sx={{ flex: 1, minWidth: 0 }}>
+                          <Typography variant="body2" sx={{ fontWeight: 600 }}>{t.name}</Typography>
+                          <Typography variant="caption" color="text.secondary">{t.reason}</Typography>
+                        </Box>
+                        <Button component={Link} to={t.to} size="small" endIcon={<ArrowForward />}>
+                          Start
+                        </Button>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Stack>
+              )}
+
               <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap", justifyContent: "center", gap: 1 }}>
-                {suggestions.map((s) => (
-                  <Chip key={s} label={s} onClick={() => handleSend(s)} clickable />
+                {suggestions[mode].map((s) => (
+                  <Chip key={s} label={s} onClick={() => handleSend(s)} clickable variant="outlined" />
                 ))}
               </Stack>
             </Stack>
           )}
+
 
           <Stack spacing={3}>
             {convo?.messages.map((m) => (
