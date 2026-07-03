@@ -5,7 +5,7 @@ import {
 } from "@mui/material";
 import {
   Add, Send, ContentCopy, Refresh, SmartToy, Person, Description, DeleteOutlined, ArrowBack,
-  Quiz as QuizIcon, AutoAwesome, TrendingUp, HelpOutline, ArrowForward, CheckCircle, Cancel,
+  Quiz as QuizIcon, AutoAwesome, TrendingUp, HelpOutlined as HelpOutline, ArrowForward, CheckCircle, Cancel,
 } from "@mui/icons-material";
 import { useRouter, Link } from "@tanstack/react-router";
 import { useAppDispatch, useAppSelector } from "@/store";
