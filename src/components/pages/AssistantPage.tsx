@@ -5,19 +5,101 @@ import {
 } from "@mui/material";
 import {
   Add, Send, ContentCopy, Refresh, SmartToy, Person, Description, DeleteOutlined, ArrowBack,
+  Quiz as QuizIcon, AutoAwesome, TrendingUp, HelpOutline, ArrowForward, CheckCircle, Cancel,
 } from "@mui/icons-material";
-import { useRouter } from "@tanstack/react-router";
+import { useRouter, Link } from "@tanstack/react-router";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   newConversation, setActive, sendMessage, receiveMessage, deleteConversation,
 } from "@/store/chatSlice";
 
-const suggestions = [
-  "Explain Java Memory Model",
-  "What is CAP theorem?",
-  "Difference between @Component and @Service",
-  "Write SQL: 2nd highest salary",
+type Mode = "ask" | "explain" | "next" | "wrong";
+
+const modes: { id: Mode; label: string; icon: React.ReactNode; color: string; hint: string }[] = [
+  { id: "ask",     label: "Interview Q",     icon: <QuizIcon fontSize="small" />,     color: "#6366f1", hint: "Ask a common interview question" },
+  { id: "explain", label: "Explain topic",   icon: <AutoAwesome fontSize="small" />,  color: "#8b5cf6", hint: "Get a deep AI explanation" },
+  { id: "next",    label: "Next topics",     icon: <TrendingUp fontSize="small" />,   color: "#10b981", hint: "Suggest what to study next" },
+  { id: "wrong",   label: "Explain wrong Q", icon: <HelpOutline fontSize="small" />,  color: "#ef4444", hint: "Explain a quiz answer you missed" },
 ];
+
+const suggestions: Record<Mode, string[]> = {
+  ask: [
+    "Explain Java Memory Model",
+    "What is CAP theorem?",
+    "Difference between @Component and @Service",
+    "Write SQL: 2nd highest salary",
+  ],
+  explain: [
+    "Explain how HashMap works internally",
+    "Walk me through Spring Boot auto-configuration",
+    "Explain SOLID principles with examples",
+  ],
+  next: [
+    "What should I learn after Spring Boot basics?",
+    "Suggest topics based on my weak areas",
+    "Give me a 3-day plan before my interview",
+  ],
+  wrong: [
+    "Why is my answer to the DP quiz wrong?",
+    "Explain the correct answer for the SQL window quiz",
+    "Where did I go wrong on the microservices MCQ?",
+  ],
+};
+
+const recentWrongAnswers = [
+  { topic: "DSA — DP", question: "Min coins to make amount N", yourAns: "Greedy", correct: "Bottom-up DP" },
+  { topic: "SQL", question: "Nth highest salary using window fn", yourAns: "RANK()", correct: "DENSE_RANK()" },
+  { topic: "Microservices", question: "Which pattern prevents cascading failures?", yourAns: "Retry", correct: "Circuit Breaker" },
+];
+
+const nextTopics = [
+  { name: "Dynamic Programming", reason: "Weakest area — 32% mastery", to: "/quiz" },
+  { name: "Saga Pattern",        reason: "Common in system design rounds", to: "/study-plan" },
+  { name: "Window Functions",    reason: "Missed 2 SQL quizzes recently",  to: "/quiz" },
+];
+
+function mockReply(mode: Mode, prompt: string): { content: string; sources?: string[] } {
+  switch (mode) {
+    case "next":
+      return {
+        content:
+          "Based on your recent activity, here's what I'd tackle next:\n\n" +
+          "1. **Dynamic Programming** — you scored below 40% on 3 attempts. Start with 1D DP (coin change, house robber).\n" +
+          "2. **Saga Pattern** — frequent in microservices interviews. Learn choreography vs orchestration.\n" +
+          "3. **SQL Window Functions** — recent misses. Focus on RANK vs DENSE_RANK vs ROW_NUMBER.\n\n" +
+          "Want me to add these to your study plan?",
+        sources: ["progress-analytics", "study-plan.md"],
+      };
+    case "wrong":
+      return {
+        content:
+          "Let's break down where the reasoning went off:\n\n" +
+          "**Your answer:** Greedy approach\n" +
+          "**Correct answer:** Bottom-up DP\n\n" +
+          "Greedy works only when the coin system is *canonical* (e.g. {1,5,10,25}). For arbitrary denominations like {1,3,4} and amount 6, greedy picks 4+1+1 (3 coins) but the optimal is 3+3 (2 coins). Bottom-up DP explores every sub-amount, guaranteeing the true minimum.\n\n" +
+          "**Remember:** whenever subproblems overlap and the greedy choice can be beaten by combining smaller solutions → use DP.",
+        sources: ["quiz-attempt #47", "dsa-notes.pdf · p.31"],
+      };
+    case "explain":
+      return {
+        content:
+          `Here's a structured explanation of "${prompt}":\n\n` +
+          "1. **Core idea** — the underlying principle in one sentence.\n" +
+          "2. **How it works** — step-by-step mechanism.\n" +
+          "3. **Example** — a concrete case you can visualize.\n" +
+          "4. **Interview follow-ups** — the 2–3 questions an interviewer will ask next.\n\n" +
+          "Want me to go deeper on any section?",
+        sources: ["interview-notes.pdf · p.12", "system-design.md"],
+      };
+    default:
+      return {
+        content:
+          "Great question. Here's a structured answer:\n\n1. Define the concept clearly.\n2. Explain the underlying mechanism.\n3. Show a practical example.\n4. Mention common interview follow-ups.\n\nWould you like me to expand any section?",
+        sources: ["interview-notes.pdf · p.12", "system-design.md"],
+      };
+  }
+}
+
 
 export default function AssistantPage() {
   const dispatch = useAppDispatch();
