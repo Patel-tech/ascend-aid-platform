@@ -107,6 +107,7 @@ export default function AssistantPage() {
   const convo = conversations.find((c) => c.id === activeId);
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
+  const [mode, setMode] = useState<Mode>("ask");
   const scrollRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -114,25 +115,27 @@ export default function AssistantPage() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [convo?.messages.length, thinking]);
 
-  function handleSend(text?: string) {
+  function handleSend(text?: string, forceMode?: Mode) {
     const msg = (text ?? input).trim();
     if (!msg) return;
+    const activeMode = forceMode ?? mode;
     dispatch(sendMessage(msg));
     setInput("");
     setThinking(true);
     setTimeout(() => {
+      const reply = mockReply(activeMode, msg);
       dispatch(
         receiveMessage({
           id: `m${Date.now()}`,
           role: "assistant",
-          content:
-            "Great question. Here's a structured answer:\n\n1. Define the concept clearly.\n2. Explain the underlying mechanism.\n3. Show a practical example.\n4. Mention common interview follow-ups.\n\nWould you like me to expand any section?",
-          sources: ["interview-notes.pdf · p.12", "system-design.md"],
+          content: reply.content,
+          sources: reply.sources,
         }),
       );
       setThinking(false);
     }, 1100);
   }
+
 
   return (
     <Box sx={{ display: "flex", height: "calc(100vh - 130px)", gap: 2 }}>
