@@ -8,6 +8,7 @@ import {
 import { Link, useRouter } from "@tanstack/react-router";
 import { useAppSelector } from "@/store";
 import ProgressCharts from "@/components/ProgressCharts";
+import Recommendations from "@/components/Recommendations";
 
 function StatCard({ icon, label, value, accent }: { icon: React.ReactNode; label: string; value: string; accent: string }) {
   return (
@@ -122,6 +123,8 @@ export default function Dashboard() {
           <StatCard icon={<EmojiEvents />} label="Mock interviews" value="9" accent="#06b6d4" />
         </Grid>
       </Grid>
+
+      <Recommendations />
 
       <Grid container spacing={2.5}>
         <Grid size={{ xs: 12, md: 8 }}>
