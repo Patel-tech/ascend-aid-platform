@@ -124,6 +124,8 @@ export default function Dashboard() {
         </Grid>
       </Grid>
 
+      <Recommendations />
+
       <Grid container spacing={2.5}>
         <Grid size={{ xs: 12, md: 8 }}>
           <Card sx={{ border: 1, borderColor: "divider" }}>
