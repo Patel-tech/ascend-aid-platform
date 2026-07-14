@@ -320,7 +320,7 @@ export default function AssistantPage() {
             </Typography>
           </Box>
           {simRunning && (
-            <Stack direction="row" spacing={1} alignItems="center" sx={{ bgcolor: "#f59e0b22", px: 1.5, py: 0.5, borderRadius: 2 }}>
+            <Stack direction="row" spacing={1} sx={{ alignItems: "center", bgcolor: "#f59e0b22", px: 1.5, py: 0.5, borderRadius: 2 }}>
               <Timer sx={{ fontSize: 18, color: "#f59e0b" }} />
               <Typography variant="body2" sx={{ fontWeight: 700, color: "#f59e0b", minWidth: 30 }}>{simTime}s</Typography>
               <Typography variant="caption" color="text.secondary">Q{simIndex + 1}/{simBank.length} · Score {simScore}</Typography>
@@ -381,7 +381,7 @@ export default function AssistantPage() {
 
               {mode === "simulate" && !simRunning && (
                 <Card sx={{ p: 3, maxWidth: 480, border: 1, borderColor: "#f59e0b", bgcolor: "#f59e0b11" }}>
-                  <Stack spacing={2} alignItems="center">
+                  <Stack spacing={2} sx={{ alignItems: "center" }}>
                     <Avatar sx={{ bgcolor: "#f59e0b", width: 48, height: 48 }}><RecordVoiceOver /></Avatar>
                     <Typography variant="h6" sx={{ fontWeight: 700 }}>Mock Interview Round</Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center" }}>
