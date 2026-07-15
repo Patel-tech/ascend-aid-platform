@@ -42,8 +42,8 @@ export default function AnalyticsPage() {
       </Box>
 
       <Grid container spacing={2.5}>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Card sx={{ border: 1, borderColor: "divider", height: "100%" }}>
+        <Grid size={{ xs: 12, md: 4 }} sx={{ minWidth: 0 }}>
+          <Card sx={{ border: 1, borderColor: "divider", height: "100%", minWidth: 0 }}>
             <CardContent sx={{ textAlign: "center" }}>
               <Avatar sx={{ width: 96, height: 96, mx: "auto", mb: 1.5, bgcolor: "primary.main", fontSize: 30, fontWeight: 700 }}>78</Avatar>
               <Typography variant="h6">Interview readiness</Typography>
@@ -52,12 +52,12 @@ export default function AnalyticsPage() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid size={{ xs: 12, md: 8 }}>
-          <Card sx={{ border: 1, borderColor: "divider", height: "100%" }}>
-            <CardContent>
+        <Grid size={{ xs: 12, md: 8 }} sx={{ minWidth: 0 }}>
+          <Card sx={{ border: 1, borderColor: "divider", height: "100%", minWidth: 0 }}>
+            <CardContent sx={{ minWidth: 0 }}>
               <Typography variant="h6" sx={{ mb: 2 }}>Learning progress (last 7 days)</Typography>
-              <Box sx={{ height: 260 }}>
-                <ResponsiveContainer>
+              <Box sx={{ height: 260, minHeight: 260, width: "100%", minWidth: 0 }}>
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} initialDimension={{ width: 600, height: 260 }}>
                   <AreaChart data={progress}>
                     <defs>
                       <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
@@ -77,12 +77,12 @@ export default function AnalyticsPage() {
           </Card>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Card sx={{ border: 1, borderColor: "divider" }}>
-            <CardContent>
+        <Grid size={{ xs: 12, md: 6 }} sx={{ minWidth: 0 }}>
+          <Card sx={{ border: 1, borderColor: "divider", minWidth: 0 }}>
+            <CardContent sx={{ minWidth: 0 }}>
               <Typography variant="h6" sx={{ mb: 2 }}>Quiz performance by topic</Typography>
-              <Box sx={{ height: 260 }}>
-                <ResponsiveContainer>
+              <Box sx={{ height: 260, minHeight: 260, width: "100%", minWidth: 0 }}>
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} initialDimension={{ width: 430, height: 260 }}>
                   <BarChart data={quizPerf}>
                     <CartesianGrid stroke={theme.palette.divider} vertical={false} />
                     <XAxis dataKey="name" stroke={theme.palette.text.secondary} />
@@ -95,12 +95,12 @@ export default function AnalyticsPage() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Card sx={{ border: 1, borderColor: "divider" }}>
-            <CardContent>
+        <Grid size={{ xs: 12, md: 6 }} sx={{ minWidth: 0 }}>
+          <Card sx={{ border: 1, borderColor: "divider", minWidth: 0 }}>
+            <CardContent sx={{ minWidth: 0 }}>
               <Typography variant="h6" sx={{ mb: 2 }}>Strengths vs targets</Typography>
-              <Box sx={{ height: 260 }}>
-                <ResponsiveContainer>
+              <Box sx={{ height: 260, minHeight: 260, width: "100%", minWidth: 0 }}>
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} initialDimension={{ width: 430, height: 260 }}>
                   <RadarChart data={radar}>
                     <PolarGrid stroke={theme.palette.divider} />
                     <PolarAngleAxis dataKey="topic" stroke={theme.palette.text.secondary} />

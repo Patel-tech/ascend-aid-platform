@@ -103,8 +103,8 @@ export default function ProgressCharts() {
   return (
     <Grid container spacing={2.5}>
       {/* Countdown */}
-      <Grid size={{ xs: 12 }}>
-        <Card sx={{ border: 1, borderColor: "divider" }}>
+      <Grid size={{ xs: 12 }} sx={{ minWidth: 0 }}>
+        <Card sx={{ border: 1, borderColor: "divider", minWidth: 0 }}>
           <CardContent>
             <Stack direction={{ xs: "column", md: "row" }} spacing={2.5} sx={{ alignItems: { md: "center" }, justifyContent: "space-between" }}>
               <Box>
@@ -172,12 +172,12 @@ export default function ProgressCharts() {
       </Grid>
 
       {/* Quiz scores over time */}
-      <Grid size={{ xs: 12, md: 8 }}>
-        <Card sx={{ border: 1, borderColor: "divider", height: "100%" }}>
-          <CardContent>
+      <Grid size={{ xs: 12, md: 8 }} sx={{ minWidth: 0 }}>
+        <Card sx={{ border: 1, borderColor: "divider", height: "100%", minWidth: 0 }}>
+          <CardContent sx={{ minWidth: 0 }}>
             <Typography variant="h6" component="h2" sx={{ mb: 2 }}>Quiz scores over time</Typography>
-            <Box sx={{ height: 280 }}>
-              <ResponsiveContainer>
+            <Box sx={{ height: 280, minHeight: 280, width: "100%", minWidth: 0 }}>
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} initialDimension={{ width: 640, height: 280 }}>
                 <LineChart data={quizScores}>
                   <CartesianGrid stroke={theme.palette.divider} vertical={false} />
                   <XAxis dataKey="date" stroke={theme.palette.text.secondary} />
@@ -194,8 +194,8 @@ export default function ProgressCharts() {
       </Grid>
 
       {/* Time per topic */}
-      <Grid size={{ xs: 12, md: 4 }}>
-        <Card sx={{ border: 1, borderColor: "divider", height: "100%" }}>
+      <Grid size={{ xs: 12, md: 4 }} sx={{ minWidth: 0 }}>
+        <Card sx={{ border: 1, borderColor: "divider", height: "100%", minWidth: 0 }}>
           <CardContent>
             <Typography variant="h6" component="h2" sx={{ mb: 2 }}>Time spent this week</Typography>
             <Stack spacing={1.5}>
@@ -226,9 +226,9 @@ export default function ProgressCharts() {
       </Grid>
 
       {/* Topic strengths & weaknesses */}
-      <Grid size={{ xs: 12 }}>
-        <Card sx={{ border: 1, borderColor: "divider" }}>
-          <CardContent>
+      <Grid size={{ xs: 12 }} sx={{ minWidth: 0 }}>
+        <Card sx={{ border: 1, borderColor: "divider", minWidth: 0 }}>
+          <CardContent sx={{ minWidth: 0 }}>
             <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 2 }}>
               <Typography variant="h6" component="h2">Topic strengths & weaknesses</Typography>
               <Stack direction="row" spacing={1}>
@@ -238,8 +238,8 @@ export default function ProgressCharts() {
                 <Chip size="small" label="Focus < 50" sx={{ bgcolor: `${error}22`, color: error }} />
               </Stack>
             </Stack>
-            <Box sx={{ height: 300 }}>
-              <ResponsiveContainer>
+            <Box sx={{ height: 300, minHeight: 300, width: "100%", minWidth: 0 }}>
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} initialDimension={{ width: 900, height: 300 }}>
                 <BarChart data={topicStrength} layout="vertical" margin={{ left: 20 }}>
                   <CartesianGrid stroke={theme.palette.divider} horizontal={false} />
                   <XAxis type="number" domain={[0, 100]} stroke={theme.palette.text.secondary} />
